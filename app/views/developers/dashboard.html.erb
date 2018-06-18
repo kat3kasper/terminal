@@ -1,3 +1,4 @@
+
 <div class="container-fluid user-dashboard-container">
   <div id ="dashboard-container">
     <div class="row">
@@ -12,7 +13,7 @@
           <%= render "utils/checkboxes_filter", title: "Salary", dataset: @salaries, value: "salaries[]", collapse_name: "salaryCollapse" %>
 
           <% if @developer.remote == ["remote", "office"] %>
-          <%= render "utils/checkboxes_filter", title: "Remote/Office", dataset: ["Remote", "Office", "Both"], value: "remote[]", collapse_name: "remoteCollapse" %>
+          <%= render "utils/checkboxes_filter", title: "Remote/Office", dataset: ["remote", "office", "both"], value: "remote[]", collapse_name: "remoteCollapse" %>
           <% end %>
 
           <%= submit_tag("Search")%>
@@ -37,12 +38,19 @@
 
           </div>
         </nav>
+
         <div class="tab-content" id="nav-tabContent">
           <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
             <div class="container matched-jobs" id="jobs-list">
-
+              <% if !@jobs.empty? %>
+              <p><%= @jobs.size %> jobs match your request</p>
               <%= render @jobs %>
-
+              <% else %>
+              <div class="text-center">
+                <h5>Sorry! Unfortunately in this moment no jobs match your request</h5>
+                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus</p>
+              </div>
+              <% end %>
             </div>
           </div>
           <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
