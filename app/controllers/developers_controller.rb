@@ -40,10 +40,22 @@ class DevelopersController < ApplicationController
     @jobs = @jobs.filter_by_cultures(params[:cultures]) if params[:cultures].present?
     @jobs = @jobs.where(city:  params[:cities]) if params[:cities].present?
     if params[:remote].present?
-      params[:remote] = ["remote"] if params[:remote] == ["Remote"]
-      params[:remote] = ["office"] if params[:remote] == ["Office"]
-      params[:remote] = ["remote", "office"] if params[:remote] == ["Both"]
-      @jobs = @jobs.where(remote: params[:remote])
+      case params[:remote].sort
+      when ["Remote jobs"]
+        @jobs = @jobs.where(remote: ["remote"])
+      when ["Office jobs"]
+        @jobs = @jobs.where(remote: ["office"])
+      when ["Both office and remote jobs"]
+        @jobs = @jobs.where(remote: ["remote", "office"])
+      when ["Office jobs", "Remote jobs"]
+        @jobs = @jobs.where(remote: ["remote"]).or(@jobs.where(remote: ["office"]))
+      when ["Both office and remote jobs", "Office jobs"]
+        @jobs = @jobs.where(remote: ["remote", "office"]).or(@jobs.where(remote: ["office"]))
+      when ["Both office and remote jobs", "Remote jobs"]
+        @jobs = @jobs.where(remote: ["remote", "office"]).or(@jobs.where(remote: ["remote"]))
+      else
+          @jobs 
+      end
     end
     @jobs = @jobs.filter_by_user_salary(params[:salaries]) if params[:salaries].present?
   end

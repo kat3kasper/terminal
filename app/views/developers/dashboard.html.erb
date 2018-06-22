@@ -12,8 +12,8 @@
           <%= render "utils/checkboxes_filter", title: "Cities", dataset: @cities, value: "cities[]", collapse_name: "citiesCollapse" %>
           <%= render "utils/checkboxes_filter", title: "Salary", dataset: @salaries, value: "salaries[]", collapse_name: "salaryCollapse" %>
 
-          <% if @developer.remote == ["remote", "office"] %>
-          <%= render "utils/checkboxes_filter", title: "Remote/Office", dataset: ["Remote", "Office", "Both"], value: "remote[]", collapse_name: "remoteCollapse" %>
+          <% if @developer.remote == ["remote", "office"] && !@jobs.empty? %>
+          <%= render "utils/checkboxes_filter", title: "Remote/Office", dataset: ["Remote jobs", "Office jobs", "Both office and remote jobs"], value: "remote[]", collapse_name: "remoteCollapse" %>
           <% end %>
           <% end %>
         </div>
@@ -46,6 +46,13 @@
           </div>
 
           <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+
+            <% if @developer.applications.empty? %>
+            <div class="text-center">
+              <h5>You still don't applay to any job</h5>
+              <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus</p>
+            </div>
+            <% else %>
 
 
            <% @developer.applications.each_with_index do |application, index| %>
@@ -99,6 +106,7 @@
             </div>
           </div>
           <% end %>
+       <% end %>
 
 
         </div>
