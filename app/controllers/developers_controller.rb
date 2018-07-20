@@ -35,10 +35,10 @@ class DevelopersController < ApplicationController
     @jobs = @developer.matched_job
     @developer.check_for_first_matches
     @skills = @developer.skills
-    @benefits = @jobs.distinct.pluck(:benefits).flatten.uniq.compact
-    @cultures = @jobs.distinct.pluck(:cultures).flatten.uniq.compact
-    @salaries = @jobs.distinct.pluck(:max_salary).flatten.uniq.compact
-    @cities = @jobs.distinct.pluck(:city).flatten.uniq
+    @benefits = @jobs.pluck(:benefits).flatten.uniq.compact
+    @cultures = @jobs.pluck(:cultures).flatten.uniq.compact
+    @salaries = @jobs.pluck(:max_salary).flatten.uniq.compact
+    @cities = @jobs.pluck(:city).flatten.uniq.compact
     @jobs = @jobs.filter_by_benefits(params[:benefits]) if params[:benefits].present?
     @jobs = @jobs.filter_by_cultures(params[:cultures]) if params[:cultures].present?
     @jobs = @jobs.where(city: params[:cities]) if params[:cities].present?
