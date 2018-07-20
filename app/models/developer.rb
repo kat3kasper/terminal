@@ -18,6 +18,12 @@ class Developer < ApplicationRecord
   before_update :check_cordinates, if: :city_changed?
   before_update :set_mobility
 
+  DEFAULT_AVATAR = "avatar.jpg"
+
+  def avatar_thumbnail
+   return DEFAULT_AVATAR unless avatar.attachment.present?
+   avatar.variant combine_options: {resize: "300x300^", gravity: "center", extent: "300x300"}
+  end
 
   def developer_location
     [city, zip_code, state, country].compact.join(', ')
@@ -82,7 +88,7 @@ class Developer < ApplicationRecord
         else
           jobs = jobs_near_me
         end
-        
+
         if need_us_permit
           jobs.can_sponsor
         else
