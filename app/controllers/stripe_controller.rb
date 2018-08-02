@@ -1,4 +1,6 @@
 class StripeController < ApplicationController
+  skip_forgery_protection
+
   def webhooks
     event_json = JSON.parse(request.body.read)
     return true if event_json["id"] == "evt_00000000000000" #Testing webhooks from dashboard
