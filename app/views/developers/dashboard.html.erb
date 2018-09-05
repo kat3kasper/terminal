@@ -30,7 +30,14 @@
             <div class="container matched-jobs" id="jobs-list">
               <% if !@jobs.empty? %>
                 <p class="d-sm-none w-100 text-center"><a href="#filters" id="filter-show"><strong>Change Filters</strong></a></p>
-                <p><%= @jobs.size %> jobs match your request</p>
+                <% if @applications.size == 0 %>
+                  <p> <%= @jobs.size %> jobs match your request</p>
+                <% elsif @applications.size == 1 %>
+                  <p> <%= @jobs.size %> jobs match your request - 1 application</p>
+                <% elsif @applications.size > 1 %>
+                  <p> <%= @jobs.size %> jobs match your request - <%= @applications.size %> applications</p>
+                <% end %>
+
                 <%= render @jobs %>
               <% else %>
                 <div class="text-center">

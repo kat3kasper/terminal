@@ -34,6 +34,7 @@ class DevelopersController < ApplicationController
     @developer = current_developer
     @jobs = @developer.matched_job
     @developer.check_for_first_matches
+    @applications = Match.where(id: @developer.applications.pluck(:match_id)).pluck(:job_id)
     @skills = @developer.skills
     @benefits = @jobs.pluck(:benefits).flatten.uniq.compact
     @cultures = @jobs.pluck(:cultures).flatten.uniq.compact
