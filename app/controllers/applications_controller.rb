@@ -95,7 +95,10 @@ class ApplicationsController < ApplicationController
   end
 
   def set_match
-    if current_developer.matched_job.include? @job
+    if @job.applications.exists?
+      @match = Match.where(developer: current_developer, job: @job)
+                    .first_or_create
+    elsif current_developer.matched_job.include? @job
       @match = Match.where(developer: current_developer, job: @job)
                     .first_or_create
     else
