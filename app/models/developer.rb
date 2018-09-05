@@ -100,8 +100,9 @@ class Developer < ApplicationRecord
     end
 
     jobs = need_us_permit ? jobs.can_sponsor : jobs
-
-    jobs.match_skills_type(skills_array)
+    jobs = jobs.match_skills_type(skills_array)
+    excluded_job = Match.where(id: self.applications.pluck(:match_id)).pluck(:job_id)
+    jobs = jobs.where.not(id: excluded_job )
   end
 
   def check_for_first_matches
