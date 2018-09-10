@@ -987,7 +987,7 @@ DEVSKILLS.each do |skill|
   Competence.create(value: skill[:name])
 end
 
-p "Created #{Competence.all.count} competence"
+p "Created #{Competence.count} competences"
 
 BENEFITS.each do |value|
   Benefit.create(value: value)
