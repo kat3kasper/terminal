@@ -1,15 +1,5 @@
 require 'factory_bot_rails'
 
-SKILLS = [
-  'AR', 'VR', 'Cybersecurity', 'Management', 'Kubernetes', 'Docker', 'Architecture', 'Mentorship',
-  'AWS', 'Java', 'Python', 'C', 'Ruby', 'Javascript', 'JQuery', 'AngularJS', 'Node.js', 'React',
-  'PHP', 'WordPress', 'HTML', 'CSS', 'Objective-C', 'Swift', 'iOS', 'Android', 'Kotlin', 'SQL',
-  '.NET', 'R', 'Perl', 'MATLAB', 'Erlang', 'Scala', 'Bash', 'Clojure', 'Haskell', 'Groovy',
-  'DevOps', 'Systems', 'Apex', 'SAS', 'Crystal', 'git', 'GitHub', 'Project Management',
-  'Product Management', 'Engineering Management', 'CTO', 'User Experience Design / UX',
-  'User Interface Design / UI', 'Quality Assurance / QA', 'Automated QA', 'Ruby on Rails', 'SaaS',
-  'React Native', 'Technical Sales', 'Outbound Sales', 'Business Development', 'Training', 'Django'
-].freeze
 DEVSKILLS = [
   {
     "name": "amazonwebservices",
