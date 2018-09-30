@@ -23,20 +23,53 @@ class FormSkill extends Component {
     this.state = {
       competences: props.competences,
       skills: props.devskills,
-      skillLevel:1,
+      impliedSkills: {},
+      suggestedSkills: {},
+      skillLevel: 1,
       selectedValue: [],
       valuesLevels: ["1", "2", "3", "4", "5"],
       error: "",
     }
   }
 
+  upsertSkillInState = (skill) => {
+    const impliedSkills = this.state.impliedSkills;
+    const suggestedSkills = this.state.suggestedSkills;
+    skill.implications.forEach(i => {
+      if (typeof impliedSkills[i.id] === 'undefined') {
+        impliedSkills[i.id] = {};
+      }
+      impliedSkills[i.id][skill.skill.competence_id] = skill.skill;
+    });
+    skill.suggestions.forEach(s => {
+      if (typeof suggestedSkills[s.id] === 'undefined') {
+        suggestedSkills[s.id] = {};
+      }
+      suggestedSkills[s.id][skill.skill.competence_id] = skill.skill;
+    });
+    const newSkills = this.state.skills.find(s =>
+      s.competence_id === skill.skill.competence_id) ?
+      this.state.skills : [ ...this.state.skills, skill.skill ];
+    this.setState({
+      skills: newSkills,
+      impliedSkills: impliedSkills,
+      suggestedSkills: suggestedSkills,
+      skillLevel: 1,
+      selectedValue: [],
+      error: ""
+    });
+  }
 
   add() {
+    const competenceId = this.state.selectedValue[0].id;
     const skillName = this.state.selectedValue[0].value;
     const skillValue = this.state.skillLevel;
-    const skillObj = { name: skillName, level: skillValue }
-    const newSkills = [ ...this.state.skills, skillObj ]
-    // const updatedList = this.newListCompetences(skillName);
+    const skillObj = { skill: {
+                         competence_id: competenceId, name: skillName,
+                         level: skillValue
+                       },
+                       implications: [],
+                       suggestions: [] };
 
     if (this.props.resource === "developers" && this.state.skills.length >= 30) {
       this.setState({ error: "Max 10 skills allowed!"})
@@ -53,17 +86,27 @@ class FormSkill extends Component {
       return;
     }
 
-    this.setState({
-      skills: newSkills,
-      skillLevel:1,
-      selectedValue: [],
-      error: ""
-    })
-    this.postSkill(skillObj);
+    this.upsertSkillInState(skillObj);
 
+    this.postSkill(skillObj)
+        .then(updatedSkills => {
+           const skill = { skill: skillObj.skill,
+                           implications: updatedSkills.implications,
+                           suggestions: updatedSkills.suggestions };
+           this.upsertSkillInState(skill);
+           updatedSkills.implications.forEach(i =>
+             this.upsertSkillInState({
+               skill: {
+                 name: i.value, competence_id: i.id, level: skill.skill.level
+               },
+               implications: [],
+               suggestions: []
+             })
+           );
+        });
   }
 
-  postSkill = (skill) => {
+  postSkill = (skill) =>
     fetch(`/api/${this.props.resource}/${this.props.id}/skills`,{
       method: 'POST',
       body: JSON.stringify(skill),
@@ -74,7 +117,6 @@ class FormSkill extends Component {
     .then(this.handleErrors)
     .then(res => res.json())
     .catch(error => console.log(error));
-  }
 
   newListCompetences = (value) => {
     return this.state.competences.filter(function( obj ) {
@@ -87,14 +129,36 @@ class FormSkill extends Component {
     this.setState({ selectedValue: val  });
   }
 
+  removeImplicationsOrSuggestions = (toRemove, iors) => {
+    var newSkills = iors;
+
+    for (const id in iors) {
+      const k = toRemove.competence_id.toString();
+      if (Object.keys(newSkills[id]).includes(k)) {
+        delete newSkills[id][k];
+        if (Object.keys(newSkills[id]).length === 0) {
+          delete newSkills[id];
+        }
+      }
+    }
+
+    return newSkills;
+  }
+
   remove(i) {
     const toRemove = this.state.skills[i];
-    const newSkills = [...this.state.skills.slice(0,i), ...this.state.skills.slice(i+1)]
-    // const updatedList = this.state.competences.concat({ value: toRemove.name })
+    const newSkills = [...this.state.skills.slice(0,i), ...this.state.skills.slice(i+1)];
+    const newImpliedSkills =
+      this.removeImplicationsOrSuggestions(toRemove, this.state.impliedSkills);
+    const newSuggestedSkills =
+      this.removeImplicationsOrSuggestions(toRemove, this.state.suggestedSkills);
+    
     this.setState({
       skills: newSkills,
+      impliedSkills: newImpliedSkills,
+      suggestedSkills: newSuggestedSkills,
       error: ""
-    })
+    });
     this.deleteSkill(toRemove.name);
   }
 
@@ -112,23 +176,41 @@ class FormSkill extends Component {
   }
 
   render() {
-    const { error, skills, competences, skillLevel, selectedSkill, selectedValue, valuesLevels} = this.state;
+    const { error, skills, impliedSkills, suggestedSkills, competences,
+            skillLevel, selectedSkill, selectedValue, valuesLevels }
+          = this.state;
 
-    const listOfSkills = skills.map((el, i) => (
-      <div className="skill-form-list d-flex justify-content-between" key={i}>
-        <div className="skill-form-icon">
-          <i className={`devicon-${el.name}-plain colored`}></i>
-          <span className="skill-form-name">{el.name}</span> - {el.level}
+    const listOfSkills = skills.map((el, i) => {
+      const implied = impliedSkills[el.competence_id];
+      const impliedList = implied ?
+        Object.values(implied)
+              .map((s, i) =>
+                <span key={s.competence_id} className="skill-form-name">
+                  {s.name}
+                </span>)
+              .reduce((list, el) => {
+                return list === null ? [el] : [...list, ', ', el];
+              }, null) : [];
+      return(
+        <div className="skill-form-list d-flex justify-content-between" key={i}>
+          <div className="skill-form-icon">
+            <i className={`devicon-${el.name}-plain colored`}></i>
+            <span className="skill-form-name">{el.name}</span> - {el.level}
+            {implied &&
+              <span className="skill-form-implied-list">
+                &nbsp;(implied by {impliedList})
+              </span>
+            }
+          </div>
+          <button className="btn btn-sm btn-outline-warning" onClick={(e) => this.remove(i)}>remove</button>
         </div>
-        <button className="btn btn-sm btn-outline-warning" onClick={(e) => this.remove(i)}>remove</button>
-      </div>
-    ))
+    )});
 
     const rangeValues = valuesLevels.map((el, i) => (
       <div key={i}>
         {el}
       </div>
-    ))
+    ));
 
     return(
       <div>
@@ -171,18 +253,18 @@ class FormSkill extends Component {
 
 }
 
-
 const initFormSkill = document.addEventListener('DOMContentLoaded', () => {
   const el = document.getElementById('form-skills');
   if (!el) return;
 
   const competences =  JSON.parse(el.dataset.competences);
   const devSkills =  JSON.parse(el.dataset.devskills);
-  const resource =  el.dataset.resource
-  const id = el.dataset.id
+  const resource =  el.dataset.resource;
+  const id = el.dataset.id;
 
   ReactDOM.render(
-    <FormSkill  competences={competences} devskills={devSkills} id={id} resource={resource} />, document.getElementById('form-skills')
+    <FormSkill competences={competences} devskills={devSkills} id={id}
+      resource={resource} />, document.getElementById('form-skills')
   )
 })
 

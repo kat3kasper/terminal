@@ -9,8 +9,19 @@ class Api::SkillsController < ApplicationController
     get_entity
 
     if @developer
-      @developer.skills.new(skill_params).save
-      render json: @developer.skills, status: :created
+      @competence = Competence.find(skill_params[:competence_id])
+      skill = { name: skill_params[:name], level: skill_params[:level] }
+      @developer.skills.new(skill).save
+      @implications = @competence.transitive_implications
+      @implications.each do |i|
+        skill = {name: i.value, level: skill_params[:level]}
+        @developer.skills.new(skill).save
+      end
+      @suggestions = @competence.transitive_suggestions
+      skills = { skills: @developer.skills,
+                 implications: @implications,
+                 suggestions: @suggestions }
+      render json: skills, status: :created
     else
       @job.skills.new(skill_params).save
       render json: @job.skills, status: :created
@@ -36,6 +47,6 @@ class Api::SkillsController < ApplicationController
   end
 
   def skill_params
-    params.require(:skill).permit(:name, :level)
+    params.require(:skill).permit(:name, :level, :competence_id)
   end
 end

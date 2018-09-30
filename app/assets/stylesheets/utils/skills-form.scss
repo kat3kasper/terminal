@@ -1,34 +1,41 @@
-.skill-form-list{
+.skill-form-list {
   padding: 1em 0;
   border-bottom: 1px solid #f2f2f2;
 }
 
-.skill-form-icon{
+.skill-form-icon {
   font-size: 1.2em;
 }
 
-.skill-form-icon i{
+.skill-form-icon i {
   margin-left: 0.7em;
   margin-right: 0.4em;
 }
 
 .skill-form-name {
-  text-transform:capitalize;
+  text-transform: capitalize;
 }
 
-.skills-select .form-control{
+.skills-select .form-control {
   padding: 0.5rem 1rem;
   font-size: 1.25rem;
   line-height: 1.5;
   border-radius: 0.3rem;
 }
 
-.skills-select .form-control{
+.skills-select .form-control {
   padding: 0.5rem 1rem;
   font-size: 1.25rem;
   line-height: 1.5;
   border-radius: 0.3rem;
 }
-.dropdown-item p{
-    font-size: 1.2em;
+
+.dropdown-item p {
+  font-size: 1.2em;
+}
+
+.skill-form-implied-list {
+  // font-style: italic;
+  font-size: 80%;
+  color: #999999;
 }

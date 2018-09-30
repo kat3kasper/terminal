@@ -30,8 +30,8 @@
           <div id="form-skills"
             data-resource="developers"
             data-id="<%= @developer.id %>"
-            data-competences="<%= Competence.all.to_json(only: [:value, :level]) %>"
-            data-devskills="<%= @developer.skills.to_json(only: [:name, :level])  %>">
+            data-competences="<%= Competence.all.to_json(only: [:id, :value, :level]) %>"
+            data-devskills="<%= @developer.skills.to_json(only: [:competence_id, :name, :level])  %>">
           </div>
           <div class="text-center">
             <%= link_to "Continue to your dashboard", dashboard_developers_path, class: "btn btn-primary btn-lg mt-4 mb-2" %>

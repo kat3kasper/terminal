@@ -30,7 +30,6 @@ class DevelopersController < ApplicationController
     end
   end
 
-
   def dashboard
     @developer = current_developer
     @jobs = @developer.matched_job
