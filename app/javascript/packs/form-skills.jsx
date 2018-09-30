@@ -32,28 +32,41 @@ class FormSkill extends Component {
     }
   }
 
+  addImplicationsOrSuggestions = (prop, skill, currentIorS) => {
+    const newSkills = currentIorS;
+    const newIorS = skill[prop];
+
+    newIorS.forEach(i => {
+      if (!this.state.skills.find(s => s.competence_id === i.id) ||
+          Object.keys(currentIorS).includes(i.id.toString())) {
+        if (typeof newSkills[i.id] === 'undefined') {
+          newSkills[i.id] = {};
+        }
+        newSkills[i.id][skill.skill.competence_id] = skill.skill;
+      }
+    });
+
+    return newSkills;
+  }
+
+  addImplications = (skill, currentImplications) =>
+    this.addImplicationsOrSuggestions("implications", skill, currentImplications);
+
+  addSuggestions = (skill, currentSuggestions) =>
+    this.addImplicationsOrSuggestions("suggestions", skill, currentSuggestions);
+
   upsertSkillInState = (skill) => {
-    const impliedSkills = this.state.impliedSkills;
-    const suggestedSkills = this.state.suggestedSkills;
-    skill.implications.forEach(i => {
-      if (typeof impliedSkills[i.id] === 'undefined') {
-        impliedSkills[i.id] = {};
-      }
-      impliedSkills[i.id][skill.skill.competence_id] = skill.skill;
-    });
-    skill.suggestions.forEach(s => {
-      if (typeof suggestedSkills[s.id] === 'undefined') {
-        suggestedSkills[s.id] = {};
-      }
-      suggestedSkills[s.id][skill.skill.competence_id] = skill.skill;
-    });
+    const newImpliedSkills =
+      this.addImplications(skill, this.state.impliedSkills);
+    const newSuggestedSkills =
+      this.addSuggestions(skill, this.state.suggestedSkills);
     const newSkills = this.state.skills.find(s =>
       s.competence_id === skill.skill.competence_id) ?
       this.state.skills : [ ...this.state.skills, skill.skill ];
     this.setState({
       skills: newSkills,
-      impliedSkills: impliedSkills,
-      suggestedSkills: suggestedSkills,
+      impliedSkills: newImpliedSkills,
+      suggestedSkills: newSuggestedSkills,
       skillLevel: 1,
       selectedValue: [],
       error: ""
@@ -152,7 +165,7 @@ class FormSkill extends Component {
       this.removeImplicationsOrSuggestions(toRemove, this.state.impliedSkills);
     const newSuggestedSkills =
       this.removeImplicationsOrSuggestions(toRemove, this.state.suggestedSkills);
-    
+
     this.setState({
       skills: newSkills,
       impliedSkills: newImpliedSkills,
