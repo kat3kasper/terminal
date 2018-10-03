@@ -14,6 +14,22 @@
       <%= form.input :url %>
     </div>
   </div>
+
+  <h5 class="mb-3">Company Culture</h5>
+  <div class="row">
+  <% Culture.all.each_slice(5) do |cultures| %>
+    <% culture_ids = @company.cultures.pluck(:id) %>
+    <div class="col col-6">
+      <% cultures.each do |culture| %>
+        <div class="custom-control custom-checkbox mr-3">
+          <input type="checkbox" class="custom-control-input" <%= 'checked="checked"' if culture_ids.include?(culture.id) %> value="<%= culture.id %>" name="company[culture_ids][]" id="company_cultures_<%= culture.value %>">
+          <label class="custom-control-label" for="company_cultures_<%= culture.value %>"><%= culture.value %></label>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+  </div>
+
   <h5 class="mt-5 my-3">Pictures</h5>
   <small class="form-text text-muted">Upload your company logo and office space to show what makes working at your company unique.</small>
   <br>
