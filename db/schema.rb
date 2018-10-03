@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_09_15_042926) do
+ActiveRecord::Schema.define(version: 2018_10_02_202221) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -76,6 +76,13 @@ ActiveRecord::Schema.define(version: 2018_09_15_042926) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "vetted", default: false
+  end
+
+  create_table "companies_cultures", id: false, force: :cascade do |t|
+    t.bigint "company_id", null: false
+    t.bigint "culture_id", null: false
+    t.index ["company_id"], name: "index_companies_cultures_on_company_id"
+    t.index ["culture_id"], name: "index_companies_cultures_on_culture_id"
   end
 
   create_table "competences", force: :cascade do |t|
