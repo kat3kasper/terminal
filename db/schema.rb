@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_04_155128) do
+ActiveRecord::Schema.define(version: 2018_10_04_165351) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -76,6 +76,13 @@ ActiveRecord::Schema.define(version: 2018_10_04_155128) do
     t.index ["company_id"], name: "index_benefits_companies_on_company_id"
   end
 
+  create_table "benefits_jobs", id: false, force: :cascade do |t|
+    t.bigint "benefit_id", null: false
+    t.bigint "job_id", null: false
+    t.index ["benefit_id"], name: "index_benefits_jobs_on_benefit_id"
+    t.index ["job_id"], name: "index_benefits_jobs_on_job_id"
+  end
+
   create_table "companies", force: :cascade do |t|
     t.string "name"
     t.string "industry"
@@ -102,6 +109,13 @@ ActiveRecord::Schema.define(version: 2018_10_04_155128) do
     t.string "value"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "cultures_jobs", id: false, force: :cascade do |t|
+    t.bigint "culture_id", null: false
+    t.bigint "job_id", null: false
+    t.index ["culture_id"], name: "index_cultures_jobs_on_culture_id"
+    t.index ["job_id"], name: "index_cultures_jobs_on_job_id"
   end
 
   create_table "developers", force: :cascade do |t|
@@ -158,8 +172,8 @@ ActiveRecord::Schema.define(version: 2018_10_04_155128) do
     t.integer "max_salary"
     t.text "skills_array", default: [], array: true
     t.string "employment_type"
-    t.text "benefits", default: [], array: true
-    t.text "cultures", default: [], array: true
+    t.text "benefits_legacy", default: [], array: true
+    t.text "cultures_legacy", default: [], array: true
     t.boolean "can_sponsor", default: false
     t.bigint "company_id"
     t.datetime "created_at", null: false

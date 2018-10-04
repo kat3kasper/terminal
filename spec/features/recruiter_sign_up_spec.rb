@@ -41,8 +41,8 @@ feature 'Recruiter sign up' do
     benefits.each { |b| check b.value }
     click_on 'Confirm'
 
-    expect(Company.last.cultures.length).to eq(cultures.length)
-    expect(Company.last.benefits.length).to eq(benefits.length)
+    expect(Company.last.cultures.length).to eq cultures.length
+    expect(Company.last.benefits.length).to eq benefits.length
 
     open_email('colin@example.com')
     current_email.click_link 'CLICK HERE'
