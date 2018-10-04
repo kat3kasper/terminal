@@ -41,10 +41,10 @@ class Job < ApplicationRecord
   }
   scope :filter_by_salary, ->(value) { where('max_salary >= ?', value) }
   scope :filter_by_benefits, ->(array) {
-    where('benefits @> ARRAY[?]::text[]', array)
+    joins(:benefits).where(benefits: { id: array })
   }
   scope :filter_by_cultures, ->(array) {
-    where('cultures @> ARRAY[?]::text[]', array)
+    joins(:cultures).where(cultures: { id: array })
   }
   scope :filter_by_employment_type, ->(value) {
     where('employment_type = ?', value)

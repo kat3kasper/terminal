@@ -1,5 +1,5 @@
 FactoryBot.define do
   factory :benefit do
-    value { Faker::Hacker.noun }
+    value { Faker::Food.fruits }
   end
 end

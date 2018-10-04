@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 feature 'Jobs' do
-  let!(:rails_competence) { create :competence, value: "Rails" }
+  let!(:rails_competence) { create :competence, value: 'Rails' }
   let!(:competencies) { create_list :competence, 5 }
 
   context 'when the company is not vetted' do

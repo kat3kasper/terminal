@@ -7,7 +7,7 @@ const listParams = () => {
           let container = document.getElementById('params-container');
           let params = document.querySelectorAll(".params");
           if (checkboxes[i].checked) {
-            container.insertAdjacentHTML("beforeend", `<div class="params" id="${checkboxes[i].value}">${checkboxes[i].value}<span data-value="${checkboxes[i].value}" class="close-params">x<span></div>`)
+            container.insertAdjacentHTML("beforeend", `<div class="params" id="${checkboxes[i].value}">${checkboxes[i].dataset.string}<span data-value="${checkboxes[i].value}" class="close-params">x<span></div>`)
           } else if (!checkboxes[i].checked) {
             let element = document.getElementById(`${checkboxes[i].value}`);
             if (element != null) element.remove();

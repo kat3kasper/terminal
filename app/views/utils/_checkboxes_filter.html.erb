@@ -7,10 +7,16 @@
 
   <div id="<%= collapse_name %>" class="collapse" aria-labelledby="heading<%= collapse_name %>" data-parent="#accordion">
     <div class="card-body">
-      <% dataset.each do |name| %>
-        <label class="checkbox">
-          <%= check_box_tag value, name %> <%= name %>
-        </label>
+      <% dataset.each do |datum| %>
+        <% if datum.class == String || datum.class == Integer %>
+          <label class="checkbox">
+            <%= check_box_tag value, datum %> <%= datum %>
+          </label>
+        <% else %>
+          <label class="checkbox">
+            <%= check_box_tag value, datum.id, false, data: { string: datum.value } %> <%= datum.value %>
+          </label>
+        <% end %>
       <% end %>
     </div>
   </div>

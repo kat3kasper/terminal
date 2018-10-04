@@ -54,12 +54,12 @@ class DevelopersController < ApplicationController
     @jobs = @developer.active_matched_jobs
     @developer.check_for_first_matches
     @skills = @developer.skills
-    @benefits = @jobs.pluck(:benefits).flatten.uniq.compact
-    @cultures = @jobs.pluck(:cultures).flatten.uniq.compact
+    @benefits = Benefit.where(id: @jobs.map(&:benefit_ids).flatten.uniq.compact)
+    @cultures = Culture.where(id: @jobs.map(&:culture_ids).flatten.uniq.compact)
     @salaries = @jobs.pluck(:max_salary).flatten.uniq.compact
     @cities = @jobs.pluck(:city).flatten.uniq.compact
-    @jobs = @jobs.filter_by_benefits(params[:benefits]) if params[:benefits].present?
-    @jobs = @jobs.filter_by_cultures(params[:cultures]) if params[:cultures].present?
+    @jobs = @jobs.filter_by_benefits(params[:benefit_ids]) if params[:benefit_ids].present?
+    @jobs = @jobs.filter_by_cultures(params[:culture_ids]) if params[:culture_ids].present?
     @jobs = @jobs.where(city: params[:cities]) if params[:cities].present?
     if params[:remote].present?
       params[:remote] = ["remote"] if params[:remote] == ["Remote"]

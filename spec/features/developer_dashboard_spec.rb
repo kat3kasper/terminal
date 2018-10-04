@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature "Developer dashboard" do
+feature 'Developer dashboard' do
   let(:developer) { create :developer, :with_profile, :remote }
 
   let!(:active_company) { create :company, vetted: true }
@@ -12,14 +12,14 @@ feature "Developer dashboard" do
 
   before { sign_in developer }
 
-  scenario "does not see jobs for inactive companies" do
+  scenario 'does not see jobs for inactive companies' do
     expect(page).to have_content active_job.title
     expect(page).to_not have_content inactive_job.title
   end
 
-  scenario "can filter by benefits", js: true do
-    click_on "Benefits"
-    check "Office Dogs"
+  scenario 'can filter by benefits', js: true do
+    click_on 'Benefits'
+    check active_job.benefits.first.value
     expect(page).to_not have_content no_benefits_job.title.upcase
     expect(page).to have_content active_job.title.upcase
   end
