@@ -8,8 +8,12 @@ feature 'Jobs' do
     let(:company) { create :company, :active }
     let(:recruiter) { create :recruiter, company: company }
     let(:job_attrs) { build :job }
-    let!(:rails_competence) { create :competence, value: "Rails" }
+    let!(:rails_competence) { create :competence, value: 'Rails' }
     let!(:competencies) { create_list :competence, 5 }
+    let!(:benefits) { create_list :benefit, 2 }
+    let!(:other_benefit) { create :benefit, value: 'foo' }
+    let!(:cultures) { create_list :culture, 2 }
+    let!(:other_culture) { create :culture, value: 'bar' }
 
     before do
       create_list :benefit, 5
@@ -34,8 +38,8 @@ feature 'Jobs' do
 
       expect(page).to have_content 'About your company values'
 
-      job_attrs.benefits.map { |benefit| check benefit }
-      job_attrs.cultures.map { |culture| check culture }
+      benefits.map { |benefit| check benefit.value }
+      cultures.map { |culture| check culture.value }
 
       click_on 'Continue'
 
@@ -43,8 +47,8 @@ feature 'Jobs' do
       new_job = Job.find_by title: job_attrs.title
       expect(new_job.company).to eq company
       expect(new_job.employment_type).to eq job_attrs.employment_type
-      expect(new_job.benefits.length).to eq job_attrs.benefits.length
-      expect(new_job.cultures.length).to eq job_attrs.cultures.length
+      expect(new_job.benefits.length).to eq benefits.length
+      expect(new_job.cultures.length).to eq cultures.length
       expect(new_job.skills_array).to eq []
     end
 

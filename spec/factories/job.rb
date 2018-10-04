@@ -13,15 +13,6 @@ FactoryBot.define do
     max_salary 50000
     skills_array ["apache/1", "android/3"]
     employment_type "Part-Time"
-    benefits [ "Office Dogs",
-      "Equity",
-      "30+ Days Parental Leave",
-      "Environmental Mission",
-      "80%+ Covered Health Insurance",
-      "Professional Development Budget",
-      "Lunch Provided",
-      "Mountain Within 60 Minutes"]
-    cultures ["Cubicles", "No cubicles", "ping pong", "Game Nights"]
     can_sponsor false
     association :company, :active
 
