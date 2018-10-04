@@ -4,6 +4,7 @@ class Company < ApplicationRecord
   has_many_attached :images
   has_one :subscriber, -> { order created_at: :desc }, dependent: :destroy
   has_and_belongs_to_many :cultures
+  has_and_belongs_to_many :benefits
 
   validates :name, :url, presence: true, length: { maximum: 500 }
 

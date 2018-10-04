@@ -15,19 +15,34 @@
     </div>
   </div>
 
+  <h5 class="mb-3">Company Benefits</h5>
+  <div class="row">
+    <% Benefit.all.each_slice(5) do |benefits| %>
+      <% benefit_ids = @company.benefits.pluck(:id) %>
+      <div class="col col-6">
+        <% benefits.each do |benefit| %>
+          <div class="custom-control custom-checkbox mr-3">
+            <input type="checkbox" class="custom-control-input" <%= 'checked="checked"' if benefit_ids.include?(benefit.id) %> value="<%= benefit.id %>" name="company[benefit_ids][]" id="company_benefits_<%= benefit.value %>">
+            <label class="custom-control-label" for="company_benefits_<%= benefit.value %>"><%= benefit.value %></label>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+
   <h5 class="mb-3">Company Culture</h5>
   <div class="row">
-  <% Culture.all.each_slice(5) do |cultures| %>
-    <% culture_ids = @company.cultures.pluck(:id) %>
-    <div class="col col-6">
-      <% cultures.each do |culture| %>
-        <div class="custom-control custom-checkbox mr-3">
-          <input type="checkbox" class="custom-control-input" <%= 'checked="checked"' if culture_ids.include?(culture.id) %> value="<%= culture.id %>" name="company[culture_ids][]" id="company_cultures_<%= culture.value %>">
-          <label class="custom-control-label" for="company_cultures_<%= culture.value %>"><%= culture.value %></label>
-        </div>
-      <% end %>
-    </div>
-  <% end %>
+    <% Culture.all.each_slice(5) do |cultures| %>
+      <% culture_ids = @company.cultures.pluck(:id) %>
+      <div class="col col-6">
+        <% cultures.each do |culture| %>
+          <div class="custom-control custom-checkbox mr-3">
+            <input type="checkbox" class="custom-control-input" <%= 'checked="checked"' if culture_ids.include?(culture.id) %> value="<%= culture.id %>" name="company[culture_ids][]" id="company_cultures_<%= culture.value %>">
+            <label class="custom-control-label" for="company_cultures_<%= culture.value %>"><%= culture.value %></label>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
   </div>
 
   <h5 class="mt-5 my-3">Pictures</h5>
