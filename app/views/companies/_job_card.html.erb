@@ -1,5 +1,5 @@
-<div class="row centered matched-job">
-  <div class="col-xs-11 col-sm-11 col-md-5">
+<div class="row centered matched-job mx-auto">
+  <div class="col-xs-11 col-sm-11 col-md-5 matched-job-title">
 
     <h4><%= job.title %></h4>
     <h5 class="text-muted"><%= job.company.name  %></h5>
@@ -46,5 +46,9 @@
         <%= f.submit 'Publish', class: "btn btn-publish-job", data: { confirm: "Are you sure you want to publish #{job.title}? It will be visible in job searches." } %>
       <% end %>
     <% end %>
+
+    <%= link_to job_path(job), class: "btn-delete-job", id: 'delete-job', method: :delete, data: { confirm: "Are you sure you want to delete #{job.title}? It will be permanently removed from job searches and from your dashboard." } do %>
+      <i class="fas fa-window-close"></i>
+    <% end %>
   </div>
-  </div>
+</div>

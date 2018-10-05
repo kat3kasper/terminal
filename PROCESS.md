@@ -1,33 +1,31 @@
 # Process
 
-1. Pick a story from Waffle and start it.
+1. Pick a story from Waffle. Move the card to "In Progress" and assign yourself to it. If you have any questions about the story move it back to the Inbox and ask the product owner (Kate) about it.
 
     Example:
 
-    > Search for jobs in multiple cities, not just one
+    > #123 Search for jobs in multiple cities, not just one
 
-2. Create a local branch in your development environment to work on the story.
+2. Create a local branch in your development environment to work on the story. Start the branch name with the Github Issue number.
 
     Example:
         $ git fetch
-        $ git branch multi-city-search origin/master
-        $ git checkout multi-city-search
+        $ git branch 123-multi-city-search origin/master
+        $ git checkout 123-multi-city-search
 
-4. Implement your feature and satisfy relevant test(s).
+4. Implement your feature and write/satisfy relevant test(s).
+
+    Notes:
+    - Follow the [Ruby Style Guide](https://github.com/rubocop-hq/ruby-style-guide).
+    You can use rubocop to see style errors `rubocop app/`
+
+    - Use bullet to check for n+1 queries. In `config/environments/test.rb` uncomment `Bullet.raise = true` and run the test suite
 
 6. Run the entire test suite.
 
     Make sure your changes don't break anything else. Fix anything broken.
 
-5. Commit branch to GitHub.
-
-    Example:
-
-        $ git add .     # make sure you only add what should be added
-                        # add things to .gitignore if needed
-        $ git diff      # sanity check changes
-        $ git commit -am 'users can find jobs in multiple cities at once'
-        $ git push
+5. Commit and push your branch to GitHub using a graphical git utility such as GitX, Tower, or Github Desktop.
 
 6. Create a pull request using the template.
 
@@ -48,4 +46,4 @@
 
 10. Request code merge.
 
-    Ask the Developer Lead to merge your branch.
+    Ask Wes to merge your branch.

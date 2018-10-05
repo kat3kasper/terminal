@@ -83,7 +83,7 @@
           </div>
 
           <div class="tab-pane fade show active" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-            <% if @company.is_member? || @company.vetted %>
+            <% if @company.is_member? || @company.vetted? %>
               <% @jobs.each_with_index do |job| %>
                 <%= render 'job_card', job: job %>
               <% end %>

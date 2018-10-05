@@ -104,6 +104,15 @@ feature 'Jobs' do
           expect(page).to_not have_content job_to_change.title
         }
       end
+
+      scenario 'can delete a job' do
+        visit dashboard_companies_path
+        within('div.matched-job', text: job_to_change.title) { click_on 'delete-job' }
+
+        within('#nav-profile') {
+          expect(page).to_not have_content job_to_change.title
+        }
+      end
     end
   end
 
