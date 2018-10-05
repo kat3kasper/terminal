@@ -3,6 +3,8 @@ FactoryBot.define do
     name { Faker::Company.name }
     industry { Faker::Company.industry }
     url { Faker::Internet.url }
+    benefits { build_list :benefit, 2 }
+    cultures { build_list :culture, 2 }
 
     trait :active do
       association :subscriber, status: :active

@@ -45,7 +45,7 @@ class CompaniesController < ApplicationController
       redirect_to new_company_path, alert: 'Please create your company' and return
     end
     @jobs = @company.active_jobs.includes(:skills)
-    @inactive_jobs = @company.inactive_jobs
+    @inactive_jobs = @company.inactive_jobs.includes(:skills)
   end
 
   private

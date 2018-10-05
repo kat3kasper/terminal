@@ -15,8 +15,8 @@ FactoryBot.define do
     employment_type "Part-Time"
     can_sponsor false
     association :company, :active
-    benefits { build_list :benefit, 2 }
-    cultures { build_list :culture, 2 }
+    benefits { company.benefits }
+    cultures { company.cultures }
 
     trait :remote do
       remote ["remote"]

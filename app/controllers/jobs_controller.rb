@@ -2,6 +2,7 @@ class JobsController < ApplicationController
   before_action :authenticate_recruiter!, only: [:new, :edit, :create, :update, :destroy]
   before_action :set_job, only: [:show, :edit, :update, :destroy, :skills, :benefits]
   before_action :authorize_action, only: [:edit, :update, :destroy, :skills, :benefits]
+  before_action :find_benefits_cultures, only: :benefits
 
   def new
     redirect_to new_subscriber_path unless current_recruiter.company.can_add_job?
@@ -96,5 +97,10 @@ class JobsController < ApplicationController
 
   def activating_job
     job_params[:active] and not @job.active
+  end
+
+  def find_benefits_cultures
+    @job_benefits = @job.benefits.present? ? @job.benefits : current_recruiter.company.benefits
+    @job_cultures = @job.cultures.present? ? @job.cultures : current_recruiter.company.cultures
   end
 end
