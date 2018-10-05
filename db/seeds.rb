@@ -1014,10 +1014,21 @@ p "Created #{Culture.all.count} cultures"
 case Rails.env
 when "development"
   5.times do
+    cultures = []
+    benefits = []
+
+    rand(2..5).times do
+      cultures << Culture.find(rand(1..Culture.count))
+    end
+    rand(2..5).times do
+      benefits << Benefit.find(rand(1..Benefit.count))
+    end
     company = Company.create(
       url: Faker::Internet.url,
       name: Faker::Company.name,
-      industry: Faker::Company.industry
+      industry: Faker::Company.industry,
+      benefits: benefits,
+      cultures: cultures
     )
     puts "created company #{company.name}"
   end
@@ -1050,18 +1061,9 @@ when "development"
     FactoryBot.create :subscriber, company: company
 
     15.times do
-      cultures = []
-      benefits = []
       skills = []
       remote = [['remote'], ['office'], %w[remote office]]
       salary = [10_000, 20_000, 30_000, 40_000, 50_000, 60_000]
-
-      rand(2..5).times do
-        cultures << Culture.find(rand(1..Culture.count)).value
-      end
-      rand(2..5).times do
-        benefits << Benefit.find(rand(1..Benefit.count)).value
-      end
 
       i = rand(0..3)
       job = Job.new(
@@ -1074,8 +1076,8 @@ when "development"
         employment_type: EMPLOYMENT_TYPE.sample,
         latitude: nil,
         longitude: nil,
-        benefits: benefits,
-        cultures: cultures,
+        benefits: company.benefits,
+        cultures: company.cultures,
         can_sponsor: Faker::Boolean.boolean(0.2),
         company: company
       )
