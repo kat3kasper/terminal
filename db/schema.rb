@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_04_165351) do
+ActiveRecord::Schema.define(version: 2018_10_05_191928) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -172,8 +172,6 @@ ActiveRecord::Schema.define(version: 2018_10_04_165351) do
     t.integer "max_salary"
     t.text "skills_array", default: [], array: true
     t.string "employment_type"
-    t.text "benefits_legacy", default: [], array: true
-    t.text "cultures_legacy", default: [], array: true
     t.boolean "can_sponsor", default: false
     t.bigint "company_id"
     t.datetime "created_at", null: false

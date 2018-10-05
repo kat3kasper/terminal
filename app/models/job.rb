@@ -17,11 +17,11 @@ class Job < ApplicationRecord
   validates :remote, inclusion: { in: [['remote'], ['office'], ['remote', 'office']] }
   validates :employment_type, presence: true, length: { maximum: 100 }
   validates :benefits, length: { minimum: 1 }, on: :update
+  validates :cultures, length: { minimum: 1 }, on: :update
   geocoded_by :location
   before_validation :geocode, if: -> { latitude.nil? }
   validate :check_coordinates, on: [:create, :update]
 
-  before_validation :sanitize_benefits_cultures
   before_validation :sanitize_description
 
   delegate :name, :url, :vetted?, to: :company, prefix: true
@@ -68,11 +68,6 @@ class Job < ApplicationRecord
 
   def deactivate
     self.active = false
-  end
-
-  def sanitize_benefits_cultures
-    benefits_legacy.reject!(&:empty?)
-    cultures_legacy.reject!(&:empty?)
   end
 
   def sanitize_description

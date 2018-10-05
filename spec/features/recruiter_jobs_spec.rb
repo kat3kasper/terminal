@@ -5,22 +5,17 @@ feature 'Jobs' do
   let!(:competencies) { create_list :competence, 5 }
 
   context 'when the company is not vetted' do
+    let!(:benefits) { create_list :benefit, 2 }
+    let!(:other_benefit) { create :benefit, value: 'foo' }
+    let!(:cultures) { create_list :culture, 2 }
+    let!(:other_culture) { create :culture, value: 'bar' }
     let(:company) { create :company, :active }
     let(:recruiter) { create :recruiter, company: company }
     let(:job_attrs) { build :job }
     let!(:rails_competence) { create :competence, value: 'Rails' }
     let!(:competencies) { create_list :competence, 5 }
-    let!(:benefits) { create_list :benefit, 2 }
-    let!(:other_benefit) { create :benefit, value: 'foo' }
-    let!(:cultures) { create_list :culture, 2 }
-    let!(:other_culture) { create :culture, value: 'bar' }
 
     before do
-      create_list :benefit, 5
-      job_attrs.benefits.map { |benefit| create :benefit, value: benefit }
-      create_list :culture, 5
-      job_attrs.cultures.map { |culture| create :culture, value: culture }
-
       sign_in recruiter
     end
 
@@ -50,6 +45,28 @@ feature 'Jobs' do
       expect(new_job.benefits.length).to eq benefits.length
       expect(new_job.cultures.length).to eq cultures.length
       expect(new_job.skills_array).to eq []
+    end
+
+    scenario 'requires benefits when adding a new job' do
+      click_on 'Add a new job'
+
+      fill_in 'Title', with: job_attrs.title
+      fill_in 'Description', with: job_attrs.description
+      select job_attrs.employment_type, from: 'Employment type'
+      check 'Remote'
+      fill_in 'City', with: job_attrs.city
+      fill_in 'State', with: job_attrs.state
+      fill_in 'Country', with: job_attrs.country
+      click_on 'Continue'
+
+      expect(page).to have_content 'About your company values'
+
+      click_on 'Continue'
+
+      expect(page).to_not have_content 'Please choose up to 2 skills'
+      expect(page).to have_content 'About your company values'
+      expect(page).to have_content 'Benefits is too short'
+      expect(page).to have_content 'Cultures is too short'
     end
 
     scenario 'adds a new job (third step)', js: true do
