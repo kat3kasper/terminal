@@ -11,7 +11,7 @@ class Company < ApplicationRecord
   validates :name, :url, presence: true, length: { maximum: 500 }
 
   delegate :active?, :canceled?, :subscription_expires_at, :plan_name,
-    to: :subscriber, allow_nil: true
+           to: :subscriber, allow_nil: true
 
   def self.active
     vetted = self.where(vetted: true).pluck :id

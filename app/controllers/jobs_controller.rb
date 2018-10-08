@@ -14,6 +14,8 @@ class JobsController < ApplicationController
     @job.active = false unless current_recruiter.company.can_add_job?
     @job.company = current_recruiter.company
     @job.toggle_to_vetted
+    @job.benefits = current_recruiter.company.benefits
+    @job.cultures = current_recruiter.company.cultures
     step = params[:job][:navigate_to]
     respond_to do |format|
       if @job.save

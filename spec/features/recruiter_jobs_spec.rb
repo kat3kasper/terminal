@@ -25,7 +25,7 @@ feature 'Jobs' do
       sign_in recruiter
     end
 
-    scenario 'adds a new job (first two steps)' do
+    scenario 'adds a new job (first step)' do
       click_on 'Add a new job'
 
       fill_in 'Title', with: job_attrs.title
@@ -35,71 +35,18 @@ feature 'Jobs' do
       fill_in 'City', with: job_attrs.city
       fill_in 'State', with: job_attrs.state
       fill_in 'Country', with: job_attrs.country
-      click_on 'Continue'
-
-      expect(page).to have_content 'About your company values'
-
-      check other_benefit.value
-      check other_culture.value
       click_on 'Continue'
 
       expect(page).to have_content 'Please choose up to 2 skills'
       new_job = Job.find_by title: job_attrs.title
       expect(new_job.company).to eq company
       expect(new_job.employment_type).to eq job_attrs.employment_type
-      expect(new_job.benefits.length).to eq company.benefits.length + 1
-      expect(new_job.cultures.length).to eq company.cultures.length + 1
+      expect(new_job.benefits).to eq company.benefits
+      expect(new_job.cultures).to eq company.cultures
       expect(new_job.skills_array).to eq []
     end
 
-    scenario 'automatically checks boxes from company' do
-      click_on 'Add a new job'
-
-      fill_in 'Title', with: job_attrs.title
-      fill_in 'Description', with: job_attrs.description
-      select job_attrs.employment_type, from: 'Employment type'
-      check 'Remote'
-      fill_in 'City', with: job_attrs.city
-      fill_in 'State', with: job_attrs.state
-      fill_in 'Country', with: job_attrs.country
-      click_on 'Continue'
-
-      expect(page).to have_content 'About your company values'
-
-      click_on 'Continue'
-
-      expect(page).to have_content 'Please choose up to 2 skills'
-      new_job = Job.find_by title: job_attrs.title
-      expect(new_job.company).to eq company
-      expect(new_job.benefits).to eq company.benefits
-      expect(new_job.cultures).to eq company.cultures
-    end
-
-    scenario 'requires benefits and cultures when adding a new job' do
-      click_on 'Add a new job'
-
-      fill_in 'Title', with: job_attrs.title
-      fill_in 'Description', with: job_attrs.description
-      select job_attrs.employment_type, from: 'Employment type'
-      check 'Remote'
-      fill_in 'City', with: job_attrs.city
-      fill_in 'State', with: job_attrs.state
-      fill_in 'Country', with: job_attrs.country
-      click_on 'Continue'
-
-      expect(page).to have_content 'About your company values'
-
-      company.benefits.map { |benefit| uncheck benefit.value }
-      company.cultures.map { |culture| uncheck culture.value }
-      click_on 'Continue'
-
-      expect(page).to_not have_content 'Please choose up to 2 skills'
-      expect(page).to have_content 'About your company values'
-      expect(page).to have_content 'You must select at least 1 benefit'
-      expect(page).to have_content 'You must select at least 1 culture'
-    end
-
-    scenario 'adds a new job (third step)', js: true do
+    scenario 'adds a new job (last step)', js: true do
       new_job = create :job, company: company, skills_array: []
 
       visit skills_job_path new_job

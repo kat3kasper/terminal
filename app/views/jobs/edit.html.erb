@@ -1,7 +1,7 @@
 <div class="container mb-5">
   <div class="row justify-content-md-center">
     <div class="col col-lg-8">
-      <%= render 'utils/progressbar', step: 1, navigations: ["Job profile", "Benefits and Values", "Skills"], classname:"" %>
+      <%= render 'utils/progressbar', classname: "small", step: 1, navigations: ["Job profile", "Skills"] %>
       <%= render 'form_job', job: @job, url: job_path(@job) %>
     </div>
   </div>
