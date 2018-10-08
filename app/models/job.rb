@@ -16,8 +16,8 @@ class Job < ApplicationRecord
   validates :max_salary, numericality: { only_integer: true, greater_than: 0 }, allow_nil: true
   validates :remote, inclusion: { in: [['remote'], ['office'], ['remote', 'office']] }
   validates :employment_type, presence: true, length: { maximum: 100 }
-  validates_presence_of :benefits, on: :update
-  validates_presence_of :cultures, on: :update
+  validates_presence_of :benefits, on: :update, message: 'You must select at least 1 benefit'
+  validates_presence_of :cultures, on: :update, message: 'You must select at least 1 culture'
   geocoded_by :location
   before_validation :geocode, if: -> { latitude.nil? }
   validate :check_coordinates, on: [:create, :update]

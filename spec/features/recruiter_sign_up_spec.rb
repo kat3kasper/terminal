@@ -64,8 +64,8 @@ feature 'Recruiter sign up' do
 
     click_on 'Confirm'
 
-    expect(page).to have_content "Benefits can't be blank"
-    expect(page).to have_content "Cultures can't be blank"
+    expect(page).to have_content 'You must select at least 1 benefit'
+    expect(page).to have_content 'You must select at least 1 culture'
   end
 
   scenario 'requires benefits and cultures when editing a company profile' do
@@ -80,7 +80,7 @@ feature 'Recruiter sign up' do
     click_on 'Confirm'
 
     expect(page).to have_content 'Edit your company'
-    expect(page).to have_content "Benefits can't be blank"
-    expect(page).to have_content "Cultures can't be blank"
+    expect(page).to have_content 'You must select at least 1 benefit'
+    expect(page).to have_content 'You must select at least 1 culture'
   end
 end

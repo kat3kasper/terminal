@@ -95,8 +95,8 @@ feature 'Jobs' do
 
       expect(page).to_not have_content 'Please choose up to 2 skills'
       expect(page).to have_content 'About your company values'
-      expect(page).to have_content "Benefits can't be blank"
-      expect(page).to have_content "Cultures can't be blank"
+      expect(page).to have_content 'You must select at least 1 benefit'
+      expect(page).to have_content 'You must select at least 1 culture'
     end
 
     scenario 'adds a new job (third step)', js: true do
