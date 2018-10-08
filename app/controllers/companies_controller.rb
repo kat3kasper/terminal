@@ -3,11 +3,8 @@ class CompaniesController < ApplicationController
   before_action :set_company, only: [:dashboard, :edit, :update]
 
   def new
-    is_recruiter_in_company?
+    recruiter_in_company?
     @company = Company.new
-  end
-
-  def edit
   end
 
   def create
@@ -42,7 +39,7 @@ class CompaniesController < ApplicationController
   def dashboard
     @company = current_recruiter.company
     if @company.nil?
-      redirect_to new_company_path, alert: 'Please create your company' and return
+      return redirect_to new_company_path, alert: 'Please create your company'
     end
     @jobs = @company.active_jobs.includes(:skills)
     @inactive_jobs = @company.inactive_jobs.includes(:skills)
@@ -60,8 +57,8 @@ class CompaniesController < ApplicationController
     current_recruiter.save
   end
 
-  def is_recruiter_in_company?
-    if !current_recruiter.company.nil?
+  def recruiter_in_company?
+    if current_recruiter.company.present?
       redirect_to dashboard_companies_path, notice: 'Already part of a company!'
     end
   end
