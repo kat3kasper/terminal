@@ -5,10 +5,16 @@ feature 'Jobs' do
   let!(:competencies) { create_list :competence, 5 }
 
   context 'when the company is not vetted' do
-    let!(:benefits) { create_list :benefit, 2 }
+    let(:benefit_1) { create :benefit, value: 'Office Dogs' }
+    let(:benefit_2) { create :benefit, value: '30+ Days Parental Leave' }
+    let(:benefits) { [benefit_1, benefit_2] }
     let!(:other_benefit) { create :benefit, value: 'foo' }
-    let!(:cultures) { create_list :culture, 2 }
+
+    let(:culture_1) { create :culture, value: 'No Cubicles' }
+    let(:culture_2) { create :culture, value: 'company outings' }
+    let(:cultures) { [culture_1, culture_2] }
     let!(:other_culture) { create :culture, value: 'bar' }
+
     let(:company) { create :company, :active, benefits: benefits, cultures: cultures }
     let(:recruiter) { create :recruiter, company: company }
     let(:job_attrs) { build :job }
@@ -37,7 +43,7 @@ feature 'Jobs' do
       check other_culture.value
       click_on 'Continue'
 
-      expect(page).to have_content "Please choose up to 2 skills"
+      expect(page).to have_content 'Please choose up to 2 skills'
       new_job = Job.find_by title: job_attrs.title
       expect(new_job.company).to eq company
       expect(new_job.employment_type).to eq job_attrs.employment_type
@@ -62,7 +68,7 @@ feature 'Jobs' do
 
       click_on 'Continue'
 
-      expect(page).to have_content "Please choose up to 2 skills"
+      expect(page).to have_content 'Please choose up to 2 skills'
       new_job = Job.find_by title: job_attrs.title
       expect(new_job.company).to eq company
       expect(new_job.benefits).to eq company.benefits
@@ -97,22 +103,22 @@ feature 'Jobs' do
       new_job = create :job, company: company, skills_array: []
 
       visit skills_job_path new_job
-      expect(page).to have_content "Please choose up to 2 skills"
+      expect(page).to have_content 'Please choose up to 2 skills'
 
-      fill_in 'Select a skill...', with: "Rails"
+      fill_in 'Select a skill...', with: 'Rails'
       find('.dropdown-item', match: :first).click
       # unable to select different levels within the test
-      click_on "Add to your skills"
+      click_on 'Add to your skills'
 
       fill_in 'Select a skill...', with: competencies.first.value
       find('.dropdown-item', match: :first).click
-      click_on "Add to your skills"
+      click_on 'Add to your skills'
 
       click_on 'Publish'
 
       expect(page).to have_content new_job.title.upcase
-      expect(page).to have_content "Rails 1"
-      expect(new_job.reload.skills_array).to match_array ["Rails/1", "#{competencies.first.value}/1"]
+      expect(page).to have_content 'Rails 1'
+      expect(new_job.reload.skills_array).to match_array ['Rails/1', "#{competencies.first.value}/1"]
     end
 
     context 'with active jobs' do
@@ -124,18 +130,18 @@ feature 'Jobs' do
         within('div.matched-job', text: job_to_change.title) { click_on 'Unpublish' }
 
         expect(job_to_change.reload.active).to eq false
-        within('#nav-profile') {
+        within('#nav-profile') do
           expect(page).to_not have_content job_to_change.title
-        }
+        end
       end
 
       scenario 'can delete a job' do
         visit dashboard_companies_path
         within('div.matched-job', text: job_to_change.title) { click_on 'delete-job' }
 
-        within('#nav-profile') {
+        within('#nav-profile') do
           expect(page).to_not have_content job_to_change.title
-        }
+        end
       end
     end
   end
@@ -155,9 +161,9 @@ feature 'Jobs' do
       within('div.matched-job', text: job.title) { click_on 'Unpublish' }
 
       expect(job.reload.active).to eq false
-      within('#nav-profile') {
+      within('#nav-profile') do
         expect(page).to_not have_content job.title
-      }
+      end
     end
 
     scenario 'inactive jobs do not show by default on index' do
@@ -166,10 +172,10 @@ feature 'Jobs' do
         expect(page).to_not have_content inactive_job.title
       end
 
-      click_on "Inactive Jobs"
-      within('#nav-inactive') {
+      click_on 'Inactive Jobs'
+      within('#nav-inactive') do
         expect(page).to have_content inactive_job.title
-      }
+      end
     end
   end
 
@@ -182,7 +188,7 @@ feature 'Jobs' do
     end
 
     scenario 'cannot activate a job' do
-      expect(page).to have_content "You are no longer a member"
+      expect(page).to have_content 'You are no longer a member'
       expect(page).to have_link 'here', href: new_subscriber_path
     end
   end
