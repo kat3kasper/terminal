@@ -42,15 +42,15 @@ class JobsController < ApplicationController
 
     respond_to do |format|
       if @job.update(job_params)
-        if step == "benefits"
+        if step == 'benefits'
           format.html { redirect_to benefits_job_path(@job) }
-        elsif step == "skills"
+        elsif step == 'skills'
           format.html { redirect_to skills_job_path(@job) }
         end
       else
-        if step == "benefits"
+        if step == 'benefits'
           format.html { render :edit }
-        elsif step == "skills"
+        elsif step == 'skills'
           format.html { render :benefits, notice: "Please select at least one value." }
         end
       end

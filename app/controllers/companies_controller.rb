@@ -12,10 +12,10 @@ class CompaniesController < ApplicationController
 
   def create
     @company = Company.new(company_params)
-    set_company_to_main_recruiter
 
     respond_to do |format|
       if @company.save
+        set_company_to_main_recruiter
         company_id = @company.id
         CompanyMailer.welcome_company(company_id).deliver
         if @company.is_member?

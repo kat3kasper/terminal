@@ -40,6 +40,8 @@ feature 'Subscriptions' do
     fill_in 'Name', with: new_recruiter.company.name
     fill_in 'Industry', with: new_recruiter.company.industry
     fill_in 'Url', with: new_recruiter.company.url
+    check Benefit.first.value
+    check Culture.first.value
     click_on 'Confirm'
 
     card = stripe_helper.generate_card_token
@@ -76,6 +78,8 @@ feature 'Subscriptions' do
     fill_in 'Name', with: new_recruiter.company.name
     fill_in 'Industry', with: new_recruiter.company.industry
     fill_in 'Url', with: new_recruiter.company.url
+    check Benefit.first.value
+    check Culture.first.value
     click_on 'Confirm'
 
     card = stripe_helper.generate_card_token
@@ -101,6 +105,8 @@ feature 'Subscriptions' do
     fill_in 'Name', with: new_recruiter.company.name
     fill_in 'Industry', with: new_recruiter.company.industry
     fill_in 'Url', with: new_recruiter.company.url
+    check Benefit.first.value
+    check Culture.first.value
     click_on 'Confirm'
 
     card = stripe_helper.generate_card_token
@@ -136,6 +142,8 @@ feature 'Subscriptions' do
     fill_in 'Name', with: new_recruiter.company.name
     fill_in 'Industry', with: new_recruiter.company.industry
     fill_in 'Url', with: new_recruiter.company.url
+    check Benefit.first.value
+    check Culture.first.value
     click_on 'Confirm'
 
     visit new_job_path

@@ -5,6 +5,8 @@ class Company < ApplicationRecord
   has_one :subscriber, -> { order created_at: :desc }, dependent: :destroy
   has_and_belongs_to_many :cultures
   has_and_belongs_to_many :benefits
+  validates_presence_of :benefits
+  validates_presence_of :cultures
 
   validates :name, :url, presence: true, length: { maximum: 500 }
 
