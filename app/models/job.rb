@@ -16,8 +16,6 @@ class Job < ApplicationRecord
   validates :max_salary, numericality: { only_integer: true, greater_than: 0 }, allow_nil: true
   validates :remote, inclusion: { in: [['remote'], ['office'], ['remote', 'office']] }
   validates :employment_type, presence: true, length: { maximum: 100 }
-  validates_presence_of :benefits, on: :update, message: 'You must select at least 1 benefit'
-  validates_presence_of :cultures, on: :update, message: 'You must select at least 1 culture'
   geocoded_by :location
   before_validation :geocode, if: -> { latitude.nil? }
   validate :check_coordinates, on: [:create, :update]
@@ -25,6 +23,7 @@ class Job < ApplicationRecord
   before_validation :sanitize_description
 
   delegate :name, :url, :vetted?, to: :company, prefix: true
+  delegate :benefit_ids, :culture_ids, to: :company
 
   scope :active, -> { where(active: true, company: Company.active) }
 
@@ -41,10 +40,10 @@ class Job < ApplicationRecord
   }
   scope :filter_by_salary, ->(value) { where('max_salary >= ?', value) }
   scope :filter_by_benefits, ->(array) {
-    joins(:benefits).where(benefits: { id: array })
+    joins(:company).merge(Company.filter_by_benefits(array))
   }
   scope :filter_by_cultures, ->(array) {
-    joins(:cultures).where(cultures: { id: array })
+    joins(:company).merge(Company.filter_by_cultures(array))
   }
   scope :filter_by_employment_type, ->(value) {
     where('employment_type = ?', value)

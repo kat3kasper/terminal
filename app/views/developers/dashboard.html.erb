@@ -8,7 +8,7 @@
             <%= render "utils/checkboxes_filter", title: "Benefits", dataset: @benefits, value: "benefit_ids[]", collapse_name: "benefitsCollapse" %>
 
             <% if @cultures.any? %>
-              <%= render "utils/checkboxes_filter", title: "Cultures", dataset: @cultures, value: "cultures[]", collapse_name: "culturesCollapse" %>
+              <%= render "utils/checkboxes_filter", title: "Cultures", dataset: @cultures, value: "culture_ids[]", collapse_name: "culturesCollapse" %>
             <% end %>
 
             <%= render "utils/checkboxes_filter", title: "Cities", dataset: @cities, value: "cities[]", collapse_name: "citiesCollapse" %>

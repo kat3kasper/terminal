@@ -13,6 +13,13 @@ class Company < ApplicationRecord
   delegate :active?, :canceled?, :subscription_expires_at, :plan_name,
            to: :subscriber, allow_nil: true
 
+   scope :filter_by_benefits, ->(array) {
+     joins(:benefits).where(benefits: { id: array })
+   }
+   scope :filter_by_cultures, ->(array) {
+     joins(:cultures).where(cultures: { id: array })
+   }
+
   def self.active
     vetted = self.where(vetted: true).pluck :id
     active = self.left_outer_joins(:subscriber).where(subscribers: {status: :active}).pluck :id
