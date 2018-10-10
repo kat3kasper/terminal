@@ -5,17 +5,10 @@ feature 'Jobs' do
   let!(:competencies) { create_list :competence, 5 }
 
   context 'when the company is not vetted' do
-    let(:benefit_1) { create :benefit, value: 'Office Dogs' }
-    let(:benefit_2) { create :benefit, value: '30+ Days Parental Leave' }
-    let(:benefits) { [benefit_1, benefit_2] }
     let!(:other_benefit) { create :benefit, value: 'foo' }
-
-    let(:culture_1) { create :culture, value: 'No Cubicles' }
-    let(:culture_2) { create :culture, value: 'company outings' }
-    let(:cultures) { [culture_1, culture_2] }
     let!(:other_culture) { create :culture, value: 'bar' }
 
-    let(:company) { create :company, :active, benefits: benefits, cultures: cultures }
+    let(:company) { create :company, :active }
     let(:recruiter) { create :recruiter, company: company }
     let(:job_attrs) { build :job }
     let!(:rails_competence) { create :competence, value: 'Rails' }
@@ -41,8 +34,6 @@ feature 'Jobs' do
       new_job = Job.find_by title: job_attrs.title
       expect(new_job.company).to eq company
       expect(new_job.employment_type).to eq job_attrs.employment_type
-      expect(new_job.benefits).to eq company.benefits
-      expect(new_job.cultures).to eq company.cultures
       expect(new_job.skills_array).to eq []
     end
 

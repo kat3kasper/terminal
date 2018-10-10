@@ -8,8 +8,6 @@ class Job < ApplicationRecord
   has_many :applications, through: :matches
   has_many :application_matches, through: :applications, source: :match
   has_many :applied_developers, through: :application_matches, source: :developer
-  has_and_belongs_to_many :benefits
-  has_and_belongs_to_many :cultures
   validates :title, presence: true, length: { maximum: 100 }
   validates :description, presence: true, length: { maximum: 10_000 }
   validates :city, :state, :country, presence: true, length: { maximum: 100 }
