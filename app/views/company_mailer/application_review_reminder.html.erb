@@ -1,0 +1,30 @@
+<p>Hi!</p>
+
+<% if @applications_array.count >= 2 %>
+
+  <p>Friendly reminder that you have dream job seekers waiting on your reply through the platform!</p>
+
+  <p>Please either contact or reject these folks. We know you remember how hard your last job search was, and we're sure you wouldn't want to keep them waiting.</p>
+
+  <p>Your candidates include:</p>
+
+  <% @applications_array.each do |app| %>
+    <p>- <%= app.developer.full_name %> for <%= app.job.title %>. Message preview:</p>
+    <p>"<%= truncate(app.message, :length => 300) %>"</p>
+    <%= link_to "See the full application", job_application_url(app.job.id, app.id) %>
+  <% end %>
+
+<% else %>
+
+  <p>Friendly reminder that you have a dream job seeker waiting on your reply through the platform!</p>
+
+  <p>Please either contact or reject their application. We know you remember how hard your last job search was, and we're sure you wouldn't want to keep them waiting.</p>
+
+  <% app = @applications_array.first %>
+  <p><%= app.developer.full_name %> for <%= app.job.title %>. Message preview:</p>
+  <p>"<%= truncate(app.message, :length => 300) %>"</p>
+  <p>Go ahead and <%= link_to "CLICK HERE", job_application_url(app.job.id, app.id) %> to log in and review their resume and cover letter directly from our platform. It’s as easy as that!</p>
+
+<% end %>
+
+<p>Thank you for working with Find My Flock!</p>

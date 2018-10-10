@@ -106,6 +106,7 @@ Rails.application.configure do
 
 
   config.action_mailer.default_url_options = { :host => ENV['DOMAIN'] }
+  config.action_mailer.asset_host = ENV['DOMAIN']
 
 
   # Do not dump schema after migrations.

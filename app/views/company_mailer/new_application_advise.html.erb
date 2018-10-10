@@ -1,12 +1,23 @@
-  <p>Dear recruiter,</p>
+<p>Dear recruiter,</p>
 
-  <p>Oh, do we have exciting news for you today!</p>
+<p>Oh, do we have exciting news for you today!</p>
 
-  <p>You have just received an application submission from a technologist on Find My Flock! Remember, this individual has already been pre-vetted for skills by our algorithm.</p>
+<p>You have just received an application submission from a technologist on Find My Flock! Remember, this individual has already been pre-vetted for skills by our algorithm.</p>
 
-  <p>Go ahead and <%= link_to "CLICK HERE", job_application_url(@job.id, @application.id) %> to log in and review their resume and cover letter directly from our platform. It’s as easy as that!</p>
+<p>Message:<p>
+<div style="margin-left: 2em; font-style: italic">
+  <p><%= @application.message %></p>
+  <p><%= @developer.full_name %></p>
+  <% if @developer.avatar.attached? %>
+    <p><%= image_tag @developer.avatar_thumbnail, style: "width: 100px" %></p>
+  <% end %>
+</div>
 
-  <p>Best of luck to both parties!</p>
+<%= link_to "Respond Now", job_application_url(@job.id, @application.id), class: "btn btn-primary" %>
 
-  <p>With love and solidarity,<br>
-  Find My Flock Team<p>
+<p>Best of luck to both parties!</p>
+
+<p>
+  With love and solidarity,<br />
+  Find My Flock Team
+</p>

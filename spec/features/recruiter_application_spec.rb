@@ -24,8 +24,10 @@ feature "Recruiter applications" do
     scenario "receives an email" do
       open_email recruiter.email
       expect(current_email).to have_content 'You have just received an application'
+      expect(current_email).to have_content developer.full_name
+      expect(current_email).to have_content developer_message
 
-      current_email.click_link 'CLICK HERE'
+      current_email.click_link 'Respond Now'
 
       expect(page).to have_content developer.full_name
       expect(page).to have_content developer_message

@@ -43,4 +43,20 @@ class CompanyMailer < ApplicationMailer
       subject: 'A Message From Your Recruiter'
     )
   end
+
+  def application_review_reminder(application_ids_array)
+    @applications_array = []
+    addresses = []
+    application_ids_array.each do |id|
+      app = Application.find(id)
+      @applications_array << app
+      addresses << app.recruiters_mail
+    end
+    addresses = addresses.uniq.join(',')
+    mail(
+      from: 'info@findmyflock.com',
+      to: addresses,
+      subject: 'An application is still waiting for your review!'
+    )
+  end
 end
