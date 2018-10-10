@@ -23,7 +23,7 @@ class Job < ApplicationRecord
   before_validation :sanitize_description
 
   delegate :name, :url, :vetted?, to: :company, prefix: true
-  delegate :benefit_ids, :culture_ids, to: :company
+  delegate :benefit_ids, :benefits, :culture_ids, :cultures, to: :company
 
   scope :active, -> { where(active: true, company: Company.active) }
 

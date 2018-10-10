@@ -71,17 +71,10 @@ ActiveRecord::Schema.define(version: 2018_10_05_191928) do
   end
 
   create_table "benefits_companies", id: false, force: :cascade do |t|
-    t.bigint "benefit_id", null: false
     t.bigint "company_id", null: false
+    t.bigint "benefit_id", null: false
     t.index ["benefit_id"], name: "index_benefits_companies_on_benefit_id"
     t.index ["company_id"], name: "index_benefits_companies_on_company_id"
-  end
-
-  create_table "benefits_jobs", id: false, force: :cascade do |t|
-    t.bigint "benefit_id", null: false
-    t.bigint "job_id", null: false
-    t.index ["benefit_id"], name: "index_benefits_jobs_on_benefit_id"
-    t.index ["job_id"], name: "index_benefits_jobs_on_job_id"
   end
 
   create_table "companies", force: :cascade do |t|
@@ -110,13 +103,6 @@ ActiveRecord::Schema.define(version: 2018_10_05_191928) do
     t.string "value"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "cultures_jobs", id: false, force: :cascade do |t|
-    t.bigint "culture_id", null: false
-    t.bigint "job_id", null: false
-    t.index ["culture_id"], name: "index_cultures_jobs_on_culture_id"
-    t.index ["job_id"], name: "index_cultures_jobs_on_job_id"
   end
 
   create_table "developers", force: :cascade do |t|
