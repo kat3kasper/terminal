@@ -85,7 +85,7 @@
     <div class="tagcloud pt-3">
       <ul>
         <% @job.benefits.each do |benefit| %>
-        <li data-toggle="popover" data-placement="top"><%= benefit %></li>
+        <li data-toggle="popover" data-placement="top"><%= benefit.value %></li>
         <% end %>
       </ul>
     </div>
@@ -101,7 +101,7 @@
     <div class="tagcloud pt-3">
      <ul>
       <% @job.cultures.each do |culture| %>
-      <li data-toggle="popover" data-placement="top"><%= culture %></li>
+      <li data-toggle="popover" data-placement="top"><%= culture.value %></li>
       <% end %>
     </ul>
   </div>
