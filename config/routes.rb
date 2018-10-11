@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   get 'policy' => 'pages#policy', as: :policy
   get "jobsamples", to: "pages#jobsamples", as: :jobsamples
 
-  resources :companies, only: [:new, :create, :edit, :update] do
+  resources :companies, only: [:new, :create, :edit, :update, :index] do
     collection do
       get 'dashboard'
     end

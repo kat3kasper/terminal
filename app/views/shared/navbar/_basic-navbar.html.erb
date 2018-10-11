@@ -1,12 +1,15 @@
-
-<li class="nav-item active">
-  <%= active_link_to 'Jobs', jobsamples_path, class: "nav-link" %>
+<li class="nav-item">
+  <%= active_link_to 'Companies', companies_path, class: "nav-link" %>
 </li>
 <li class="nav-link d-none d-sm-block"> | </li>
 <li class="nav-item">
-  <%= active_link_to 'Job Seekers', new_developer_session_path, class: "nav-link", id: "NavEmployers" %>
+  <%= active_link_to 'Job Samples', jobsamples_path, class: "nav-link" %>
 </li>
 <li class="nav-link d-none d-sm-block"> | </li>
 <li class="nav-item">
-  <%= active_link_to 'Companies', pages_path(:pricing), class: "nav-link", id: "NavEmployers" %>
+  <%= active_link_to 'Find a Job', new_developer_session_path, class: "nav-link", id: "NavEmployers" %>
+</li>
+<li class="nav-link d-none d-sm-block"> | </li>
+<li class="nav-item">
+  <%= active_link_to 'Recruit', pages_path(:pricing), class: "nav-link", id: "NavEmployers" %>
 </li>

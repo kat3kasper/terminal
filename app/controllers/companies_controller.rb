@@ -2,6 +2,13 @@ class CompaniesController < ApplicationController
   before_action :authenticate_recruiter!, only: [:new, :create, :dashboard, :edit]
   before_action :set_company, only: [:dashboard, :edit, :update]
 
+  def index
+    @companies = Company.active.includes(:benefits, :cultures)
+    # binding.pry
+    @companies = @companies.map{ |c| c if c.active_jobs.present? }.compact
+    # @companies = @companies.left_outer_joins(:jobs).merge(Job.active).group_by(:company)
+  end
+
   def new
     recruiter_in_company?
     @company = Company.new

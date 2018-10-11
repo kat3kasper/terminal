@@ -1,0 +1,52 @@
+<div class="col-md-9 col-lg-9 pt-3 px-sm-4 mx-auto">
+  <h4 class="centered">What companies are on this site?</h4>
+  <p class="centered">Below are the companies featured on our site and the benfits and cultures each of them offer.</p>
+  <p class="centered">If you want to see the jobs these companies have posted, complete your profile and see the jobs that match your skills!</p>
+
+  <div class="container matched-jobs">
+    <% @companies.each do |company| %>
+      <div class="row centered matched-job">
+        <div class="col-xs-12 col-lg-4" style="margin-top: 10px;">
+          <% if company.vetted? %>
+            <button type="button" class="btn vetted-btn" data-toggle="modal" data-target="#vettedModal">
+              <%= image_tag "checked.png", class: "icon-resized" %>
+              <h5 class="vetted-icon-lbl">VETTED</h5>
+            </button>
+          <% end %>
+          <h4><%= company.name %></h4>
+        </div>
+
+        <div class="col-xs-12 col-lg-4 matched-job-skills">
+          <h5 class="row matched-job-skills-title">Benefits</h5>
+          <div class="row skill-row">
+            <table class="table">
+              <tbody>
+                <% company.benefits.each do |benefit| %>
+                <tr>
+                  <td><%= benefit.value %></td>
+                </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="col-xs-12 col-lg-4 matched-job-skills">
+          <h5 class="row matched-job-skills-title">Culture</h5>
+          <div class="row skill-row">
+            <table class="table">
+              <tbody>
+                <% company.cultures.each do |culture| %>
+                <tr>
+                  <td><%= culture.value %></td>
+                </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+  <%= render "shared/vetted_modal" %>
+</div>
