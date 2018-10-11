@@ -37,12 +37,6 @@ class Job < ApplicationRecord
     where.not(skills_array: []).where('skills_array <@ ARRAY[?]::text[]', array)
   }
   scope :filter_by_salary, ->(value) { where('max_salary >= ?', value) }
-  scope :filter_by_benefits, ->(array) {
-    joins(:company).merge(Company.filter_by_benefits(array))
-  }
-  scope :filter_by_cultures, ->(array) {
-    joins(:company).merge(Company.filter_by_cultures(array))
-  }
   scope :filter_by_companies, ->(array) {
     where(company_id: array)
   }
