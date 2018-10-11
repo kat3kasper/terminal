@@ -28,18 +28,7 @@ class Company < ApplicationRecord
   end
 
   def self.company_ids_by_class(array, klass)
-    company_ids = []
-    first_check = true
-    array.each do |item|
-      list_of_ids = klass.find(item).company_ids
-      if first_check
-        company_ids = list_of_ids
-        first_check = false
-      else
-        company_ids &= list_of_ids
-      end
-    end
-    company_ids
+    array.map { |id| klass.find(id).company_ids }.reduce(&:&)
   end
 
   def applications
