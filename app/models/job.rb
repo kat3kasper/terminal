@@ -43,6 +43,9 @@ class Job < ApplicationRecord
   scope :filter_by_cultures, ->(array) {
     joins(:company).merge(Company.filter_by_cultures(array))
   }
+  scope :filter_by_companies, ->(array) {
+    where(company_id: array)
+  }
   scope :filter_by_employment_type, ->(value) {
     where('employment_type = ?', value)
   }

@@ -27,6 +27,21 @@ class Company < ApplicationRecord
     self.where(id: (vetted + active + almost_canceled).compact)
   end
 
+  def self.company_ids_by_class(array, klass)
+    company_ids = []
+    first_check = true
+    array.each do |item|
+      list_of_ids = klass.find(item).company_ids
+      if first_check
+        company_ids = list_of_ids
+        first_check = false
+      else
+        company_ids &= list_of_ids
+      end
+    end
+    company_ids
+  end
+
   def applications
     job_ids = jobs.pluck(:id)
     matches_ids = Match.where(job_id: job_ids).pluck(:id)
