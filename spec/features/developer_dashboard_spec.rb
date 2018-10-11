@@ -61,8 +61,8 @@ feature 'Developer dashboard' do
   scenario 'can filter by benefits and cultures', js: true do
     click_on 'Benefits'
     check other_company.benefits.first.value
-    click_on 'Cultures'
     sleep 2
+    click_on 'Cultures'
     check active_company.cultures.first.value
 
     expect(page).to have_content job_with_all.title.upcase
