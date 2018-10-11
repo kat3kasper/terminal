@@ -38,7 +38,6 @@ Rails.application.routes.draw do
     end
     member do
       get 'skills'
-      get 'benefits'
     end
   end
 
