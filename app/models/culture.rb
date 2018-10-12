@@ -1,4 +1,4 @@
 class Culture < ApplicationRecord
-  has_and_belongs_to_many :companies
-  has_and_belongs_to_many :jobs
+  has_many :company_cultures
+  has_many :companies, through: :company_cultures
 end

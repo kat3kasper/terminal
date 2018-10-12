@@ -3,8 +3,10 @@ class Company < ApplicationRecord
   has_many :recruiters, dependent: :nullify
   has_many_attached :images
   has_one :subscriber, -> { order created_at: :desc }, dependent: :destroy
-  has_and_belongs_to_many :cultures
-  has_and_belongs_to_many :benefits
+  has_many :company_cultures
+  has_many :cultures, through: :company_cultures
+  has_many :benefit_companies
+  has_many :benefits, through: :benefit_companies, source: :benefit
   validates_presence_of :benefits, message: 'You must select at least 1 benefit'
   validates_presence_of :cultures, message: 'You must select at least 1 culture'
 

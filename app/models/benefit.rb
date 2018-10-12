@@ -1,4 +1,4 @@
 class Benefit < ApplicationRecord
-  has_and_belongs_to_many :companies
-  has_and_belongs_to_many :jobs
+  has_many :benefit_companies
+  has_many :companies, through: :benefit_companies
 end

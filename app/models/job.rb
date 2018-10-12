@@ -56,6 +56,14 @@ class Job < ApplicationRecord
     end
   end
 
+  def self.benefit_ids
+    all.map(&:benefit_ids).flatten.uniq.compact
+  end
+
+  def self.culture_ids
+    all.map(&:culture_ids).flatten.uniq.compact
+  end
+
   def location
     [city, zip_code, state, country].compact.join(', ')
   end
