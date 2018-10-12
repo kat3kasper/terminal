@@ -120,7 +120,7 @@ class Developer < ApplicationRecord
   end
 
   def self.check_for_new_matches
-    all.each do |developer|
+    find_each do |developer|
       jobs_array = []
       new_matches = 0
       developer.active_matched_jobs.each do |job|

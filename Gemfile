@@ -62,7 +62,12 @@ group :test do
   gem 'selenium-webdriver'
   gem 'launchy'
   gem 'webmock'
-  gem 'stripe-ruby-mock', '~> 2.5.4', :require => 'stripe_mock'
+
+  # version 2.5.5 has a bug that breaks our tests:
+  # https://github.com/rebelidealist/stripe-ruby-mock/issues/563
+  # Set this back to a ~> version specifier once the fix is released:
+  gem 'stripe-ruby-mock', '2.5.4', :require => 'stripe_mock'
+
   gem 'simplecov', require: false
   gem 'simplecov-console', require: false
 end
