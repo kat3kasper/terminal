@@ -3,10 +3,12 @@ class CompaniesController < ApplicationController
   before_action :set_company, only: [:dashboard, :edit, :update]
 
   def index
-    @companies = Company.active.includes(:benefits, :cultures)
-    # binding.pry
-    @companies = @companies.map{ |c| c if c.active_jobs.present? }.compact
-    # @companies = @companies.left_outer_joins(:jobs).merge(Job.active).group_by(:company)
+    @companies = Company.active.preload(:benefits, :cultures)
+    @companies = @companies.joins(:jobs).where(jobs: { active: true }).group('companies.id')
+    @companies = @companies.order('companies.vetted DESC')
+
+    benefits_cultures = "COUNT('benefits.id') + COUNT('cultures.id') DESC"
+    @companies = @companies.joins(:benefits, :cultures).order(benefits_cultures)
   end
 
   def new
