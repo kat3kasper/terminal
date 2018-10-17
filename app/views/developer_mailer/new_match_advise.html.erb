@@ -1,20 +1,50 @@
+<p>Dear <%= @developer.full_name %>,</p>
 
-  <p>Dear <%= @developer.full_name %>,</p>
-
-  <p>Oh, do we have exciting news for you today!</p>
+<p>Oh, do we have exciting news for you today!</p>
 
 <p>You are now matched as a: </p>
+
 <ul>
   <% @jobs.each do |job| %>
-    <li> <%=  job.title %>  at <%= job.company.name %>!</li>
+    <li><%= job.title %> at <%= job.company.name %>!</li>
   <% end %>
 </ul>
 
-  <p>This could be the beginning of an incredible opportunity for you. What if it’s your dream job?</p>
+<% if @jobs.count == 1 %>
+  <p>This job includes the following benefits:</p>
+<% else %>
+  <p>These jobs include the following benefits:</p>
+<% end %>
 
-  <p>Go ahead and <%= link_to "login", dashboard_developers_url %> to check things out.</p>
+<ul>
+  <% @benefits[0..4].each do |benefit| %>
+    <li><%= benefit.humanize %></li>
+  <% end %>
 
-  <p>Like what you see? Submit your resume and cover letter directly through our platform and the company will be able to review it the next opportunity they get. It’s as easy as that!</p>
+  <% if @benefits.count > 5 %>
+    <li><strong>And much more!</strong></li>
+  <% end %>
+</ul>
 
-  <p>With love and solidarity,<br>
-  Find My Flock Team<p>
+<% if @cultures.present? %>
+  <% if @companies.count >= 2 %>
+    <p>And this is part of the companies' culture:</p>
+  <% else %>
+    <p>And this is part of the company culture:</p>
+  <% end %>
+
+  <ul>
+    <% @cultures.each do |culture| %>
+      <li><%= culture.humanize %></li>
+    <% end %>
+  </ul>
+<% end %>
+
+<p>This could be the beginning of an incredible opportunity for you. What if it’s your dream job?</p>
+
+<p>Go ahead and <%= link_to "login", dashboard_developers_url %> to check things out.</p>
+
+<p>Like what you see? Submit your resume and cover letter directly through our platform and the company will be able to review it the next opportunity they get. It’s as easy as that!</p>
+
+<p>With love and solidarity,<br>
+Find My Flock Team<p>
