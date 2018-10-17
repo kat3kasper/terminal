@@ -12,10 +12,11 @@ class Identity < ApplicationRecord
           first_name: auth.info.first_name,
           last_name: auth.info.last_name,
           subscribed_to_newsletter: true,
+          linkedin_url: auth.info.urls.public_profile.split('/')[-1]
         )
         developer_provider = Identity.create!(
-          provider:auth.provider,
-          uid:auth.uid,
+          provider: auth.provider,
+          uid: auth.uid,
           developer_id: developer.id,
           token: auth.credentials.token,
           expires: auth.credentials.expires,
