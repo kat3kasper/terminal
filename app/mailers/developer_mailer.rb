@@ -2,6 +2,7 @@ class DeveloperMailer < ApplicationMailer
   def new_match_advise(developer_id, jobs)
     @developer = Developer.find(developer_id)
     @jobs = jobs
+    @job = @jobs.first
     mail( to: @developer.email, subject: 'You Have A New Job Match!' )
   end
 

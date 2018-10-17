@@ -1,7 +1,6 @@
+<p>Dear <%= @developer.full_name %>,</p>
 
-  <p>Dear <%= @developer.full_name %>,</p>
-
-  <p>Oh, do we have exciting news for you today!</p>
+<p>Oh, do we have exciting news for you today!</p>
 
 <p>You are now matched as a: </p>
 <ul>
@@ -10,11 +9,11 @@
   <% end %>
 </ul>
 
-  <p>This could be the beginning of an incredible opportunity for you. What if it’s your dream job?</p>
+<p>This could be the beginning of an incredible opportunity for you. What if it’s your dream job?</p>
 
-  <p>Go ahead and <%= link_to "login", dashboard_developers_url %> to check things out.</p>
+<p>Go ahead and <strong><%= link_to "apply here", new_job_application_url(@job) %></strong>!</p>
 
-  <p>Like what you see? Submit your resume and cover letter directly through our platform and the company will be able to review it the next opportunity they get. It’s as easy as that!</p>
+<p>Like what you see? Submit your resume and cover letter directly through our platform and the company will be able to review it the next opportunity they get. It’s as easy as that!</p>
 
-  <p>With love and solidarity,<br>
-  Find My Flock Team<p>
+<p>With love and solidarity,<br>
+Find My Flock Team<p>
