@@ -2,23 +2,6 @@ class DeveloperMailer < ApplicationMailer
   def new_match_advise(developer_id, jobs)
     @developer = Developer.find(developer_id)
     @jobs = jobs
-    @benefits = []
-    @cultures = []
-    @companies = []
-
-    @jobs.each do |job|
-      for benefit in job.benefits do
-        @benefits << benefit
-      end
-      for culture in job.cultures do
-        @cultures << culture
-      end
-      @companies << job.company_id
-      @benefits.uniq!
-      @cultures.uniq!
-    end
-    @companies.uniq!
-
     mail( to: @developer.email, subject: 'You Have A New Job Match!' )
   end
 

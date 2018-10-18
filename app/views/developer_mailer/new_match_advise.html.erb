@@ -6,39 +6,29 @@
 
 <ul>
   <% @jobs.each do |job| %>
-    <li><%= job.title %> at <%= job.company.name %>!</li>
+    <h3><strong><%= job.title.humanize %></strong> at <%= job.company.name %>!</h3>
+    Benefits:
+    <ul>
+      <% job.benefits[0..4].each do |benefit| %>
+        <li><%= benefit.humanize %></li>
+      <% end %>
+      <% if job.benefits.count > 5 %>
+        <li><strong>And much more!</strong></li>
+      <% end %>
+    </ul>
+    <br>
+    Company culture:
+    <ul>
+      <% job.cultures.each do |culture| %>
+        <li><%= culture.humanize %></li>
+      <% end %>
+      <br>
+    </ul>
+    <p><%= sanitize job.description.truncate_words(60) %></p>
+    <p><%= link_to "Click here to see more and apply", new_job_application_url(job) %></p>
+    <br><br>
   <% end %>
 </ul>
-
-<% if @jobs.count == 1 %>
-  <p>This job includes the following benefits:</p>
-<% else %>
-  <p>These jobs include the following benefits:</p>
-<% end %>
-
-<ul>
-  <% @benefits[0..4].each do |benefit| %>
-    <li><%= benefit.humanize %></li>
-  <% end %>
-
-  <% if @benefits.count > 5 %>
-    <li><strong>And much more!</strong></li>
-  <% end %>
-</ul>
-
-<% if @cultures.present? %>
-  <% if @companies.count >= 2 %>
-    <p>And this is part of the companies' culture:</p>
-  <% else %>
-    <p>And this is part of the company culture:</p>
-  <% end %>
-
-  <ul>
-    <% @cultures.each do |culture| %>
-      <li><%= culture.humanize %></li>
-    <% end %>
-  </ul>
-<% end %>
 
 <p>This could be the beginning of an incredible opportunity for you. What if it’s your dream job?</p>
 
