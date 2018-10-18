@@ -20,7 +20,8 @@ def google_mock_auth_hash
   OmniAuth.config.test_mode = true
   OmniAuth.config.mock_auth[:google_oauth2] = OmniAuth::AuthHash.new({
     info: {
-      email: 'mockuser@gmail.com'
+      email: 'mockuser@gmail.com',
+      },
     },
     credentials: {
       token: 'abcdefg12345'
@@ -32,7 +33,10 @@ def linkedin_mock_auth_hash
   OmniAuth.config.test_mode = true
   OmniAuth.config.mock_auth[:linkedin] = OmniAuth::AuthHash.new({
     info: {
-      email: 'mockuser@gmail.com'
+      email: 'mockuser@gmail.com',
+      urls: {
+        public_profile: 'http://linkedin.com/mockusername'
+      },
     },
     credentials: {
       token: 'abcdefg12345'

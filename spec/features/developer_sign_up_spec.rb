@@ -147,7 +147,7 @@ feature 'Developer sign up' do
     end
   end
 
-  scenario 'a new developer must confirm email beefore changing password' do
+  scenario 'a new developer must confirm email before changing password' do
     visit root_path
     click_on 'Join'
     expect(page).to have_content 'Create your job seeker account'
