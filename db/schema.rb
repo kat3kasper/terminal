@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_11_022105) do
+ActiveRecord::Schema.define(version: 2018_10_19_032443) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -174,6 +174,7 @@ ActiveRecord::Schema.define(version: 2018_10_11_022105) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "status", default: 0
+    t.boolean "reminder_sent", default: false
     t.index ["developer_id"], name: "index_matches_on_developer_id"
     t.index ["job_id"], name: "index_matches_on_job_id"
   end
