@@ -22,7 +22,7 @@ def google_mock_auth_hash
     provider: 'google_oauth2',
     info: {
       email: 'mockuser@gmail.com',
-      },
+    },
     credentials: {
       token: 'abcdefg12345'
     }
