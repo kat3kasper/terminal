@@ -24,4 +24,26 @@ class Match < ApplicationRecord
       errors.add :match, 'No match between developer requirement and job requirement. Impossible to save match'
     end
   end
+
+  def self.remind_job_seekers_to_apply
+    Developer.find_each do |developer|
+      @matches_ids_array = []
+      emails_to_send = 0
+      developer.matches.
+        where(reminder_sent: false).
+        where(applications: [nil, ""]).each do |match|
+        if ((Time.now - match.created_at) / 1.day) >= 7
+          @matches_ids_array << match.id
+          emails_to_send =+ 1
+        end
+      end
+      if emails_to_send.positive?
+        DeveloperMailer.unapplied_matches_reminder(@matches_ids_array).deliver
+        @matches_ids_array.each do |id|
+          match = Match.find(id)
+          match.update_attribute(:reminder_sent, true)
+        end
+      end
+    end
+  end
 end
