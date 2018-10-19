@@ -142,6 +142,7 @@ class FormSkill extends Component {
             labelKey="value"
             options={competences}
             placeholder="Select a skill..."
+            maxResults={competences.length}
             paginate={false}
             onChange={this.onSelectSkill}
             selected={selectedValue}
