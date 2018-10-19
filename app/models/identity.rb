@@ -42,6 +42,11 @@ class Identity < ApplicationRecord
           refresh_token: auth.credentials.refresh_token,
         )
         developer
+      elsif registered_developer.present? && auth.provider == 'linkedin'
+        registered_developer.update!(
+          linkedin_url: auth.info.urls.public_profile.split('/')[-1]
+        )
+        registered_developer
       else
         Identity.create!(
           provider: auth.provider,
