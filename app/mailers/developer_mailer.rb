@@ -27,7 +27,7 @@ class DeveloperMailer < ApplicationMailer
     matches_ids_array.each do |id|
       match = Match.find(id)
       @matches_array << match
-      addresses << app.developer.email
+      addresses << match.developer.email
     end
     addresses = addresses.uniq.join(',')
     mail(
