@@ -1,4 +1,4 @@
-<p>Hi!</p>
+<p>Hi <%= @matches_array.first.full_name %>!</p>
 
   <p>Friendly reminder that you have matches that are waiting for you on the platform!</p>
 
@@ -6,29 +6,29 @@
 
   <ul>
     <% @matches_array.each do |match| %>
-      <li> <%= match.job.title %>  at <%= match.job.company.name %>!</li>
-      <h3><strong><%= match.job.title.humanize %></strong> at <%= match.job.company.name %>!</h3>
+      <h3><strong><%= match.job_title.humanize %></strong> at <%= match.company_name %>!</h3>
       Benefits:
       <ul>
-        <% match.job.benefits[0..4].each do |benefit| %>
+        <% match.benefits[0..4].each do |benefit| %>
           <li><%= benefit.humanize %></li>
         <% end %>
-        <% if match.job.benefits.count > 5 %>
+        <% if match.benefits.count > 5 %>
           <li><strong>And much more!</strong></li>
         <% end %>
       </ul>
       <br>
       Company culture:
       <ul>
-        <% match.job.cultures.each do |culture| %>
+        <% match.cultures.each do |culture| %>
           <li><%= culture.humanize %></li>
         <% end %>
         <br>
       </ul>
-      <p><%= sanitize job.description.truncate_words(60) %></p>
+      <p><%= sanitize match.description.truncate_words(60) %></p>
       <p><%= link_to "Click here to see more and apply", new_job_application_url(match.job) %></p>
       <br><br>
     <% end %>
   </ul>
 
-<p>Thank you for working with Find My Flock!</p>
+<p>With love and solidarity,<br>
+Find My Flock Team<p>
