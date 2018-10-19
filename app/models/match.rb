@@ -32,7 +32,7 @@ class Match < ApplicationRecord
       emails_to_send = 0
       developer.matches.
         where(reminder_sent: false).
-        where(applications: [nil, ""]).each do |match|
+        includes(:application).where(applications: {id: nil}).each do |match|
         if ((Time.now - match.created_at) / 1.day) >= 7
           @matches_ids_array << match.id
           emails_to_send =+ 1
