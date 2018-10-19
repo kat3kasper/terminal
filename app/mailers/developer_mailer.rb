@@ -20,4 +20,20 @@ class DeveloperMailer < ApplicationMailer
     @company = @job.company
     mail( to: @developer.email, subject: 'Application Status Update' )
   end
+
+  def unapplied_matches_reminder(matches_ids_array)
+    @matches_array = []
+    addresses = []
+    matches_ids_array.each do |id|
+      match = Match.find(id)
+      @matches_array << match
+      addresses << app.developer.email
+    end
+    addresses = addresses.uniq.join(',')
+    mail(
+      from: 'info@findmyflock.com',
+      to: addresses,
+      subject: 'There are opportunities you might want to consider!'
+    )
+  end
 end
