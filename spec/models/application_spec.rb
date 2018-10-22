@@ -16,17 +16,17 @@ describe Application do
   context 'last mail is more than 7 days' do
     context 'status is pending or opened' do
       let(:pending_application_1) {
-                                  create :application,
-                                  match: match_1,
-                                  status: 'pending',
-                                  last_mail_sent: 10.days.ago
-                                }
+                                    create :application,
+                                    match: match_1,
+                                    status: 'pending',
+                                    last_mail_sent: 10.days.ago
+                                  }
       let(:pending_application_2) {
-                                  create :application,
-                                  match: match_2,
-                                  status: 'pending',
-                                  last_mail_sent: 10.days.ago
-                                }
+                                    create :application,
+                                    match: match_2,
+                                    status: 'pending',
+                                    last_mail_sent: 10.days.ago
+                                  }
       let(:opened_application) {
                                  create :application,
                                  match: match_1,
