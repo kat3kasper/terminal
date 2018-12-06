@@ -30,7 +30,6 @@ workflows:
         jobs:
           - hello/hello-build
 
-jobs:
   build:
     executor: docker-executor
 
