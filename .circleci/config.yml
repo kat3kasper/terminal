@@ -31,6 +31,8 @@ jobs:
     working_directory: ~/findmyflock/www
 
     steps:
+      - slack/message
+
       - checkout
 
       # Download and cache Ruby dependencies
