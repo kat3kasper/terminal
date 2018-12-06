@@ -22,9 +22,21 @@ executors:
           POSTGRES_DB: findmyflock_test
 
 orbs:
-    slack: circleci/slack@0.1.0
+    hello: circleci/hello-build@0.0.5
+
+workflows:
+    "Hello Workflow":
+        jobs:
+          - hello/hello-build
 
 jobs:
+  myjob:
+    docker:
+      - image: "circleci/node:9.6.1"
+    steps:
+      - myorb/sayhello:
+          to: "Lev"
+
   build:
     executor: docker-executor
 
@@ -84,6 +96,3 @@ jobs:
             if [ -n "${CC_TEST_REPORTER_ID}" ]; then
               ./cc-test-reporter after-build
             fi
-
-      - slack/testing:
-        message: "this is a test"
