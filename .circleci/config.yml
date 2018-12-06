@@ -36,6 +36,7 @@ jobs:
       - image: "circleci/node:9.6.1"
     steps:
       - slack/sayhi:
+          webhook: "https://hooks.slack.com/services/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"
           message: "This is a test"
       - myorb/sayhello:
           to: "Lev"
