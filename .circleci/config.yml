@@ -31,8 +31,6 @@ jobs:
     working_directory: ~/findmyflock/www
 
     steps:
-      - slack/testing:
-        message: "this is a test"
 
       - checkout
 
@@ -86,3 +84,6 @@ jobs:
             if [ -n "${CC_TEST_REPORTER_ID}" ]; then
               ./cc-test-reporter after-build
             fi
+
+      - slack/testing:
+        message: "this is a test"
