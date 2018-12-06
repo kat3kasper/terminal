@@ -99,3 +99,6 @@ jobs:
             if [ -n "${CC_TEST_REPORTER_ID}" ]; then
               ./cc-test-reporter after-build
             fi
+
+      - slack/status:
+          webhook: "https://hooks.slack.com/services/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"
