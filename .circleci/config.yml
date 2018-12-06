@@ -24,11 +24,6 @@ executors:
 orbs:
     slack: circleci/slack@0.1.0
 
-workflows:
-    "Slack Workflow":
-        jobs:
-          - slack/notify
-
 jobs:
   build:
     executor: docker-executor
@@ -36,6 +31,9 @@ jobs:
     working_directory: ~/findmyflock/www
 
     steps:
+      - slack/testing:
+        message: "this is a test"
+
       - checkout
 
       # Download and cache Ruby dependencies
