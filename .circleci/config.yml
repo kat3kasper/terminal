@@ -9,77 +9,80 @@ orbs:
 
 
 workflows:
-  "Only Workflow":
-    jobs:
-      build:
-        docker:
-          # specify the version you desire here
-          - image: circleci/ruby:2.4.4-node-browsers
-            environment:
-              RAILS_ENV: test
-              BUNDLE_PATH: vendor/bundle
-              PGUSER: root
-              PGHOST: 127.0.0.1
-          # Specify service dependencies here if necessary
-          # CircleCI maintains a library of pre-built images
-          # documented at https://circleci.com/docs/2.0/circleci-images/
-          - image: circleci/postgres:10.4
-            environment:
-              POSTGRES_USER: root
-              POSTGRES_DB: findmyflock_test
+    "Hello Workflow":
+        jobs:
+          - hello/hello-build
 
-        working_directory: ~/findmyflock/www
+jobs:
+  build:
+    docker:
+      # specify the version you desire here
+      - image: circleci/ruby:2.4.4-node-browsers
+        environment:
+          RAILS_ENV: test
+          BUNDLE_PATH: vendor/bundle
+          PGUSER: root
+          PGHOST: 127.0.0.1
+      # Specify service dependencies here if necessary
+      # CircleCI maintains a library of pre-built images
+      # documented at https://circleci.com/docs/2.0/circleci-images/
+      - image: circleci/postgres:10.4
+        environment:
+          POSTGRES_USER: root
+          POSTGRES_DB: findmyflock_test
 
-        steps:
-          - checkout
+    working_directory: ~/findmyflock/www
 
-          # Download and cache Ruby dependencies
-          - restore_cache:
-              keys:
-              - v1-dependencies-{{ checksum "Gemfile.lock" }}
+    steps:
+      - checkout
 
-          - run:
-              name: install dependencies
-              command: |
-                bundle check || bundle install
+      # Download and cache Ruby dependencies
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "Gemfile.lock" }}
 
-          - save_cache:
-              paths:
-                - vendor/bundle
-              key: v1-dependencies-{{ checksum "Gemfile.lock" }}
+      - run:
+          name: install dependencies
+          command: |
+            bundle check || bundle install
 
-          # Download and cache JS dependencies
-          - restore_cache:
-              keys:
-              - v1-yarn-dependencies-{{ checksum "package.json" }}
+      - save_cache:
+          paths:
+            - vendor/bundle
+          key: v1-dependencies-{{ checksum "Gemfile.lock" }}
 
-          - run:
-              name: install dependencies
-              command: |
-                yarn install --ignore-engines
+      # Download and cache JS dependencies
+      - restore_cache:
+          keys:
+          - v1-yarn-dependencies-{{ checksum "package.json" }}
 
-          - save_cache:
-              paths:
-                - ~/.cache/yarn
-              key: v1-yarn-dependencies-{{ checksum "package.json" }}
+      - run:
+          name: install dependencies
+          command: |
+            yarn install --ignore-engines
 
-          # Database setup
-          - run:
-              command: bundle exec rake db:create db:schema:load
+      - save_cache:
+          paths:
+            - ~/.cache/yarn
+          key: v1-yarn-dependencies-{{ checksum "package.json" }}
 
-          - run:
-              name: Setup Code Climate test-reporter
-              command: |
-                curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-                chmod +x ./cc-test-reporter
+      # Database setup
+      - run:
+          command: bundle exec rake db:create db:schema:load
 
-          - run:
-              name: Run tests
-              command: |
-                if [ -n "${CC_TEST_REPORTER_ID}" ]; then
-                  ./cc-test-reporter before-build
-                fi
-                bundle exec rspec
-                if [ -n "${CC_TEST_REPORTER_ID}" ]; then
-                  ./cc-test-reporter after-build
-                fi
+      - run:
+          name: Setup Code Climate test-reporter
+          command: |
+            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+            chmod +x ./cc-test-reporter
+
+      - run:
+          name: Run tests
+          command: |
+            if [ -n "${CC_TEST_REPORTER_ID}" ]; then
+              ./cc-test-reporter before-build
+            fi
+            bundle exec rspec
+            if [ -n "${CC_TEST_REPORTER_ID}" ]; then
+              ./cc-test-reporter after-build
+            fi
