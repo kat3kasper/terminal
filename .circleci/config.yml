@@ -4,19 +4,9 @@
 #
 version: 2.1
 
-orbs:
-    hello: circleci/hello-build@0.0.5
-
-
-workflows:
-    "Hello Workflow":
-        jobs:
-          - hello/hello-build
-
-jobs:
-  build:
+executors:
+  docker-executor:
     docker:
-      # specify the version you desire here
       - image: circleci/ruby:2.4.4-node-browsers
         environment:
           RAILS_ENV: test
@@ -30,6 +20,19 @@ jobs:
         environment:
           POSTGRES_USER: root
           POSTGRES_DB: findmyflock_test
+
+orbs:
+    hello: circleci/hello-build@0.0.5
+
+
+workflows:
+    "Hello Workflow":
+        jobs:
+          - hello/hello-build
+
+jobs:
+  build:
+    executor: docker-executor
 
     working_directory: ~/findmyflock/www
 
