@@ -30,62 +30,62 @@ workflows:
         jobs:
           - hello/hello-build
 
-jobs:
-  build:
-    executor: docker-executor
+        jobs:
+          build:
+            executor: docker-executor
 
-    working_directory: ~/findmyflock/www
+            working_directory: ~/findmyflock/www
 
-    steps:
-      - checkout
+            steps:
+              - checkout
 
-      # Download and cache Ruby dependencies
-      - restore_cache:
-          keys:
-          - v1-dependencies-{{ checksum "Gemfile.lock" }}
+              # Download and cache Ruby dependencies
+              - restore_cache:
+                  keys:
+                  - v1-dependencies-{{ checksum "Gemfile.lock" }}
 
-      - run:
-          name: install dependencies
-          command: |
-            bundle check || bundle install
+              - run:
+                  name: install dependencies
+                  command: |
+                    bundle check || bundle install
 
-      - save_cache:
-          paths:
-            - vendor/bundle
-          key: v1-dependencies-{{ checksum "Gemfile.lock" }}
+              - save_cache:
+                  paths:
+                    - vendor/bundle
+                  key: v1-dependencies-{{ checksum "Gemfile.lock" }}
 
-      # Download and cache JS dependencies
-      - restore_cache:
-          keys:
-          - v1-yarn-dependencies-{{ checksum "package.json" }}
+              # Download and cache JS dependencies
+              - restore_cache:
+                  keys:
+                  - v1-yarn-dependencies-{{ checksum "package.json" }}
 
-      - run:
-          name: install dependencies
-          command: |
-            yarn install --ignore-engines
+              - run:
+                  name: install dependencies
+                  command: |
+                    yarn install --ignore-engines
 
-      - save_cache:
-          paths:
-            - ~/.cache/yarn
-          key: v1-yarn-dependencies-{{ checksum "package.json" }}
+              - save_cache:
+                  paths:
+                    - ~/.cache/yarn
+                  key: v1-yarn-dependencies-{{ checksum "package.json" }}
 
-      # Database setup
-      - run:
-          command: bundle exec rake db:create db:schema:load
+              # Database setup
+              - run:
+                  command: bundle exec rake db:create db:schema:load
 
-      - run:
-          name: Setup Code Climate test-reporter
-          command: |
-            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-            chmod +x ./cc-test-reporter
+              - run:
+                  name: Setup Code Climate test-reporter
+                  command: |
+                    curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+                    chmod +x ./cc-test-reporter
 
-      - run:
-          name: Run tests
-          command: |
-            if [ -n "${CC_TEST_REPORTER_ID}" ]; then
-              ./cc-test-reporter before-build
-            fi
-            bundle exec rspec
-            if [ -n "${CC_TEST_REPORTER_ID}" ]; then
-              ./cc-test-reporter after-build
-            fi
+              - run:
+                  name: Run tests
+                  command: |
+                    if [ -n "${CC_TEST_REPORTER_ID}" ]; then
+                      ./cc-test-reporter before-build
+                    fi
+                    bundle exec rspec
+                    if [ -n "${CC_TEST_REPORTER_ID}" ]; then
+                      ./cc-test-reporter after-build
+                    fi
