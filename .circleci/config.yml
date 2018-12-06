@@ -3,6 +3,10 @@
 # Check https://circleci.com/docs/2.0/language-ruby/ for more details
 #
 version: 2.1
+
+orbs:
+    hello: circleci/hello-build@0.0.5
+
 jobs:
   build:
     docker:
