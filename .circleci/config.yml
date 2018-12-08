@@ -90,3 +90,6 @@ workflows:
     "Hello Workflow":
         jobs:
           - hello/hello-build
+    "Hello Slack":
+        jobs:
+          - slack/status
