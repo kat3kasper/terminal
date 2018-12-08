@@ -26,15 +26,6 @@ orbs:
     slack: circleci/slack@0.1.10
 
 jobs:
-  myjob:
-    docker:
-      - image: "circleci/node:9.6.1"
-    steps:
-      - slack/sayhi:
-          webhook: "https://hooks.slack.com/services/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"
-      - myorb/sayhello:
-          to: "Lev"
-
   build:
     executor: docker-executor
 
@@ -95,10 +86,8 @@ jobs:
               ./cc-test-reporter after-build
             fi
 
-      - slack/status:
-          webhook: "https://hooks.slack.com/services/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"
-
 workflows:
     "Hello Workflow":
         jobs:
           - hello/hello-build
+          - slack/status
