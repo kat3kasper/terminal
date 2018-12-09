@@ -94,6 +94,7 @@ jobs:
     executor: cli/default
     steps:
       - run: echo "this job is using the orb's default executor"
+
   use-install-command:
     docker:
       - image: 'circleci/circleci-cli:latest'
@@ -101,6 +102,11 @@ jobs:
       - cli/install
       - run: echo "the CLI is now installed"
 
+  send-status:
+    executor: docker-executor
+    steps:
+      - run: echo "Slack job is working"
+      - slack/notify
 
 workflows:
     "Hello Workflow":
@@ -110,3 +116,7 @@ workflows:
         jobs:
           - use-executor
           - use-install-command
+
+    slack-orb:
+        jobs:
+          - send-status
