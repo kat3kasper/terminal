@@ -90,35 +90,19 @@ jobs:
       - slack/notify:
           message: "Working"
 
-  use-executor:
-    executor: cli/default
-    steps:
-      - run: echo "this job is using the orb's default executor"
-
-  use-install-command:
-    docker:
-      - image: 'circleci/circleci-cli:latest'
-    steps:
-      - cli/install
-      - run: echo "the CLI is now installed"
-
   send-status:
     executor: docker-executor
     steps:
       - run: echo "Slack job is working"
       - slack/notify:
           webhook: "https://hooks.slack.com/services/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"
+          message: "Kate is a GENIUS!"
 
 
 workflows:
     "Hello Workflow":
         jobs:
           - hello/hello-build
-    cli-orb-example:
-        jobs:
-          - use-executor
-          - use-install-command
-
     slack-orb:
         jobs:
           - send-status
