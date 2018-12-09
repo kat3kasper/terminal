@@ -86,9 +86,6 @@ jobs:
               ./cc-test-reporter after-build
             fi
 
-      - slack/notify:
-          message: "Working"
-
   send-status:
     executor: docker-executor
     steps:
