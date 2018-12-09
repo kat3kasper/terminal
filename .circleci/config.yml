@@ -98,6 +98,9 @@ jobs:
 
 
 workflows:
+    run-tests:
+        jobs:
+          - build
     slack-orb:
         jobs:
           - send-status
