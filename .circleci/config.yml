@@ -24,6 +24,7 @@ executors:
 orbs:
     hello: circleci/hello-build@0.0.5
     slack: circleci/slack@0.1.10
+    cli: circleci/circleci-cli@1.0.0
 
 jobs:
   build:
@@ -89,7 +90,23 @@ jobs:
       - slack/notify:
           message: "Working"
 
+  use-executor:
+    executor: cli/default
+    steps:
+      - run: echo "this job is using the orb's default executor"
+  use-install-command:
+    docker:
+      - image: 'circleci/circleci-cli:latest'
+    steps:
+      - cli/install
+      - run: echo "the CLI is now installed"
+
+
 workflows:
     "Hello Workflow":
         jobs:
           - hello/hello-build
+    cli-orb-example:
+        jobs:
+          - use-executor
+          - use-install-command
