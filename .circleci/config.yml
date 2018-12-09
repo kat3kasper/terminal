@@ -106,7 +106,9 @@ jobs:
     executor: docker-executor
     steps:
       - run: echo "Slack job is working"
-      - slack/notify
+      - slack/notify:
+          webhook: "https://hooks.slack.com/services/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"
+
 
 workflows:
     "Hello Workflow":
@@ -120,4 +122,3 @@ workflows:
     slack-orb:
         jobs:
           - send-status
-              webhook: "https://hooks.slack.com/services/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"
