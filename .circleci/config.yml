@@ -24,7 +24,7 @@ executors:
 orbs:
     hello: circleci/hello-build@0.0.5
     slack: circleci/slack@0.1.10
-    cli: circleci/circleci-cli@1.0.0
+    cli: circleci/circleci-cli@0.1.2
 
 jobs:
   build:
