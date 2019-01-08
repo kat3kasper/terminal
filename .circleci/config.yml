@@ -30,7 +30,6 @@ jobs:
       - slack/notify:
           message: CircleCI rocks!
           color: '#42e2f4'
-          webhook: SLACK_WEBHOOK
 
       - checkout
 
