@@ -3,24 +3,24 @@
 # Check https://circleci.com/docs/2.0/language-ruby/ for more details
 #
 version: 2.1
-jobs:
-  build:
+
+executors:
+  ruby-executor:
     docker:
-      # specify the version you desire here
       - image: circleci/ruby:2.4.4-node-browsers
         environment:
           RAILS_ENV: test
           BUNDLE_PATH: vendor/bundle
           PGUSER: root
           PGHOST: 127.0.0.1
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
       - image: circleci/postgres:10.4
         environment:
           POSTGRES_USER: root
           POSTGRES_DB: findmyflock_test
 
+jobs:
+  build:
+    executor: ruby-executor
     working_directory: ~/findmyflock/www
 
     steps:
