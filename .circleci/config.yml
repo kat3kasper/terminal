@@ -4,6 +4,9 @@
 #
 version: 2.1
 
+orbs: 
+  slack: circleci/slack@0.1.15
+
 executors:
   ruby-executor:
     docker:
@@ -24,6 +27,11 @@ jobs:
     working_directory: ~/findmyflock/www
 
     steps:
+      - slack/notify:
+          message: CircleCI rocks!
+          color: '#42e2f4'
+          webhook: SLACK_WEBHOOK
+
       - checkout
 
       # Download and cache Ruby dependencies
