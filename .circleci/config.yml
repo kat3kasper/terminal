@@ -4,8 +4,8 @@
 #
 version: 2.1
 
-orbs: 
-  slack: circleci/slack@1.0.3
+orbs:
+  slack: circleci/slack
 
 executors:
   ruby-executor:
