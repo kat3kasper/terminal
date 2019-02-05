@@ -5,7 +5,8 @@
 version: 2.1
 
 orbs:
-  slack: circleci/slack
+  slack: circleci/slack@1.1.0
+  puppies: katelabs/encouragement@dev:second
 
 executors:
   ruby-executor:
@@ -30,6 +31,9 @@ jobs:
       - slack/notify:
           message: CircleCI rocks!
           color: '#42e2f4'
+
+      - puppies/notify-with-puppies
+
 
       - checkout
 
