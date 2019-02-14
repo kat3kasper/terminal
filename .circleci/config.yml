@@ -32,9 +32,7 @@ jobs:
           message: CircleCI rocks!
           color: '#42e2f4'
 
-      - encouragement/notify-with-puppies:
-          webhook: ${SLACK_WEBHOOK}
-
+      - encouragement/notify-with-puppies
 
       - checkout
 
