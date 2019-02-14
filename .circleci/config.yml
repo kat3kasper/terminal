@@ -6,7 +6,7 @@ version: 2.1
 
 orbs:
   slack: circleci/slack@1.1.0
-  encouragement: katelabs/encouragement@dev:beta
+  encouragement: katelabs/encouragement@1.0.1
 
 executors:
   ruby-executor:
