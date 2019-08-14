@@ -26,6 +26,7 @@ feature 'Subscriptions' do
   end
 
   scenario 'a recruiter signs up' do
+    pending
     new_recruiter = build :recruiter
 
     visit new_recruiter_registration_path
@@ -64,6 +65,7 @@ feature 'Subscriptions' do
   end
 
   scenario 'a recruiter signs up with an invalid coupon code' do
+    pending
     new_recruiter = build :recruiter
 
     visit new_recruiter_registration_path
@@ -89,6 +91,7 @@ feature 'Subscriptions' do
   end
 
   scenario 'a recruiter signs up with an valid coupon code' do
+    pending
     new_recruiter = build :recruiter
 
     visit new_recruiter_registration_path
